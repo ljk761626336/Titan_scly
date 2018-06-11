@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center"
+        android:background="@drawable/background_view_rounded_blue"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="start|center"
+            android:paddingLeft="5dp"
+            android:text="@string/currentinfo"
+            android:textColor="@color/white"
+            android:textSize="@dimen/larger_txtsize20" />
+
+        <ImageView
+            android:id="@+id/calloutpopuwindow_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/background_view_rounded_image"
+            android:contentDescription="@null"
+            android:padding="5dp"
+            android:src="@drawable/close" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="220dp"
+        android:layout_height="1dp"
+        android:background="@color/base_end_color_pressed" />
+
+    <LinearLayout
+        android:id="@+id/calloutpopuwindow_xian80"
+        android:layout_width="220dp"
+        android:layout_height="80dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="left|center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left|center"
+                android:paddingLeft="5dp"
+                android:text="@string/xian_80_x"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/larger_txtsize20" />
+
+            <TextView
+                android:id="@+id/calloutpopuwindow_80_x"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:gravity="left|center"
+                android:paddingLeft="10dp"
+                android:textColor="@color/blue"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/base_end_color_pressed" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="left|center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left|center"
+                android:paddingLeft="5dp"
+                android:text="@string/xian_80_y"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/larger_txtsize20" />
+
+            <TextView
+                android:id="@+id/calloutpopuwindow_80_y"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:gravity="left|center"
+                android:paddingLeft="10dp"
+                android:textColor="@color/blue"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="220dp"
+        android:layout_height="1dp"
+        android:background="@color/base_end_color_pressed" />
+
+    <LinearLayout
+        android:layout_width="220dp"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="left|center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left|center"
+                android:paddingLeft="5dp"
+                android:text="@string/lon"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/larger_txtsize20" />
+
+            <TextView
+                android:id="@+id/calloutpopuwindow_wgs_lon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:gravity="left|center"
+                android:paddingLeft="5dp"
+                android:textColor="@color/blue"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/base_end_color_pressed" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="left|center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left|center"
+                android:paddingLeft="5dp"
+                android:text="@string/lat"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/larger_txtsize20" />
+
+            <TextView
+                android:id="@+id/calloutpopuwindow_wgs_lat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:gravity="left|center"
+                android:paddingLeft="5dp"
+                android:textColor="@color/blue"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/addscpoint"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_view_rounded_blue"
+        android:padding="5dp"
+        android:text="添加收藏点"
+        android:textColor="@color/white" />
+
+</LinearLayout>

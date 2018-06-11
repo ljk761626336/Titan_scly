@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent" >
+
+    <ImageView
+        android:id="@+id/topview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/share_top"
+        android:contentDescription="@null" >
+    </ImageView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="5dp"
+        android:gravity="right"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/tckz_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_view_rounded_image"
+            android:contentDescription="@null"
+            android:src="@drawable/share_tucengkongzhi" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/share_xbqd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_view_image"
+            android:contentDescription="@null"
+            android:src="@drawable/xiaobanlist_btn" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/share_dmgl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            android:background="@drawable/background_view_image"
+            android:contentDescription="@null"
+            android:src="@drawable/share_dm_manger" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/share_xbcx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_view_image"
+            android:contentDescription="@null"
+            android:visibility="gone"
+            android:src="@drawable/share_xiaobanchaxun" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/share_xbbj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_view_image"
+            android:contentDescription="@null"
+            android:src="@drawable/share_xiaobanbianji" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/share_gjcx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_view_image"
+            android:contentDescription="@null"
+            android:src="@drawable/share_guijichaxun" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/share_tcxr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_view_image"
+            android:contentDescription="@null"
+            android:src="@drawable/tucengxuanran" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/share_zbdw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_view_image"
+            android:contentDescription="@null"
+            android:src="@drawable/share_zuobiaodingwei" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/share_grzx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_view_image"
+            android:contentDescription="@null"
+            android:src="@drawable/share_person_center"/>
+
+        <ImageView
+            android:id="@+id/share_xtsz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_view_image"
+            android:contentDescription="@null"
+            android:src="@drawable/share_sys_settings" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/shuju_sjtb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_view_image"
+            android:contentDescription="@null"
+            android:src="@drawable/share_shujutongbu">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/shuxing_lable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="属性标注"
+            android:background="@drawable/background_view_image"
+            android:contentDescription="@null"
+            android:src="@drawable/share_shuxingbiaozhu">
+        </ImageView>
+
+    </LinearLayout>
+
+</FrameLayout>

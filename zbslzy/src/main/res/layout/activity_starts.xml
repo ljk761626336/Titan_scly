@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_starts"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.otitan.sclyyq.activity.StartsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/background_title"
+            android:drawableLeft="@drawable/sc_login"
+            android:padding="5dp"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:text="@string/starts_title"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/sc_bg"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_yzl"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:background="@drawable/background_normal"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="200dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="30dp"
+                        app:srcCompat="@drawable/ic_sic_01"/>
+
+                    <TextView
+                        android:id="@+id/tv_yzl_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_margin="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/tv_yzl_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:layout_below="@id/tv_yzl_1"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:text="@string/starts_yzl_c"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_below="@id/tv_yzl_2"
+                        android:layout_marginTop="5dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:text="@string/starts_yzl_e"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_ld"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:background="@drawable/background_normal"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="200dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="30dp"
+                        app:srcCompat="@drawable/ic_sic_02"/>
+
+                    <TextView
+                        android:id="@+id/tv_ld_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_margin="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/tv_ld_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:layout_below="@id/tv_ld_1"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:text="@string/starts_ld_c"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_below="@id/tv_ld_2"
+                        android:layout_marginTop="5dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:text="@string/starts_ld_e"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_lmcf"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:background="@drawable/background_normal"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="200dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="30dp"
+                        app:srcCompat="@drawable/ic_sic_03"/>
+
+                    <TextView
+                        android:id="@+id/tv_lmcf_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_margin="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/tv_lmcf_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:layout_below="@id/tv_lmcf_1"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:text="@string/starts_lmcf_c"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_below="@id/tv_lmcf_2"
+                        android:layout_marginTop="5dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:text="@string/starts_lmcf_e"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:text="@string/starts_bottom"/>
+</RelativeLayout>
