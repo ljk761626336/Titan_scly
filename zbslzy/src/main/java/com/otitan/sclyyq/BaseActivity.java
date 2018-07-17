@@ -1873,7 +1873,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         personCenterPopup.dismiss();
         ShouCangDialog dialog = new ShouCangDialog(mContext, graphicsLayer,
                 pictureMarkerSymbol, mapView, ShouCangDialog.SqlType.SELECT);
-        BussUtil.setDialogParams(mContext, dialog, 0.7, 0.8);
+        BussUtil.setDialogParams(mContext, dialog, 0.5, 0.5);
     }
 
     /**

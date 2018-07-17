@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
  */
 public class DbHelper<T> extends SQLiteOpenHelper{
 
-	public static final int SCHEMA_VERSION = 2000;
+	public static final int SCHEMA_VERSION = 2004;
 	private Class<?> clszz;
 	private String dbpath;
 

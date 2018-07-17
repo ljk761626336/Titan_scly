@@ -16,6 +16,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyHo
 
     private List<EventList> items;
     private Context context;
+    private OnItemClickListener mOnItemClickListener;
 
     public EventListAdapter(Context context, List<EventList> items) {
         this.context = context;
@@ -34,8 +35,16 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyHo
     }
 
     @Override
-    public void onBindViewHolder(MyHolder holder, int position) {
+    public void onBindViewHolder(final MyHolder holder, int position) {
         holder.textView.setText(items.get(position).getXJ_SJMC());
+        if( mOnItemClickListener!= null){
+            holder.itemView.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onClick(holder.getAdapterPosition());
+                }
+            });
+        }
     }
 
     @Override
@@ -43,10 +52,17 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyHo
         return items.size();
     }
 
+    public interface OnItemClickListener{
+        void onClick( int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener ){
+        this.mOnItemClickListener=onItemClickListener;
+    }
+
     class MyHolder extends RecyclerView.ViewHolder {
         TextView textView;
 
-        public MyHolder(View itemView) {
+        MyHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.item_sjlb);
         }

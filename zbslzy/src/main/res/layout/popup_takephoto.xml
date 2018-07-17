@@ -14,7 +14,8 @@
         android:padding="10dp"
         android:text="拍照"
         android:textColor="@color/white"
-        android:textSize="@dimen/larger_txtsize16" />
+        android:textSize="@dimen/larger_txtsize16"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="fill_parent"
@@ -29,7 +30,8 @@
         android:padding="10dp"
         android:text="从相册中选取"
         android:textColor="@color/white"
-        android:textSize="@dimen/larger_txtsize16" />
+        android:textSize="@dimen/larger_txtsize16"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="fill_parent"
@@ -59,7 +61,8 @@
         android:padding="10dp"
         android:text="巡检事件上报"
         android:textColor="@color/white"
-        android:textSize="@dimen/larger_txtsize16" />
+        android:textSize="@dimen/larger_txtsize16"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="fill_parent"

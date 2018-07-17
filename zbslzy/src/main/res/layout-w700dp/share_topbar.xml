@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_view_image"
-            android:drawableTop="@drawable/share_tucengkongzhi"
+            android:drawableTop="@drawable/share_sjlb"
             android:text="@string/mainmenu_eventlist" />
 
         <TextView

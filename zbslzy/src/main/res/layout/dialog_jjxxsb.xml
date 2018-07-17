@@ -17,6 +17,7 @@
             android:background="@drawable/bg_linearlayout">
 
             <TextView
+                android:id="@+id/jjxxsb_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/blue"
@@ -900,6 +901,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/jjxxsb_zp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_linearlayout"
@@ -925,6 +927,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/jjxxsb_yp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_linearlayout"
@@ -950,6 +953,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/jjxxsb_sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_linearlayout"
@@ -976,6 +980,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/jjxxsb_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_linearlayout"
