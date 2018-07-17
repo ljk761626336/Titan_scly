@@ -44,6 +44,8 @@ public interface ILayerControlView extends IBaseView{
 
     List<Row> getSysLayerData();
 
+    void setSysLayerData(List<Row> proData);
+
     List<String> getLayerKeyList();
 
     SharedPreferences getSharedPreferences();

@@ -21,7 +21,7 @@
             android:paddingLeft="10dp"
             android:text="图层控制"
             android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            android:textSize="@dimen/dialog_title" />
 
         <ImageView
             android:id="@+id/close_tuceng"
@@ -46,15 +46,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="3dp" >
+            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/cb_sl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:padding="7dp" />
+                style="@style/custom_checkbox_style"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -62,18 +61,12 @@
                 android:layout_weight="1"
                 android:gravity="left|center"
                 android:text="基础图"
-                android:textColor="@color/balck"
-                android:textSize="15sp" />
+                android:textColor="@color/balck" />
 
             <ImageView
                 android:id="@+id/tile_extent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:background="@drawable/background_view_rounded_image"
-                android:contentDescription="@null"
-                android:padding="7dp"
-                android:src="@drawable/wb_feed_icon_gps" />
+                android:src="@drawable/icon_map_loction"
+                style="@style/layer_loc_style" />
         </LinearLayout>
 
         <View
@@ -85,14 +78,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="3dp" >
+            android:orientation="horizontal" >
 
             <CheckBox
                 android:id="@+id/cb_ys"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="7dp" />
+                style="@style/custom_checkbox_style"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -100,20 +92,14 @@
                 android:layout_weight="1"
                 android:gravity="left|center"
                 android:text="影像图"
-                android:textColor="@color/balck"
-                android:textSize="15sp" />
+                android:textColor="@color/balck" />
 
             <ImageView
                 android:id="@+id/image_extent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:background="@drawable/background_view_rounded_image"
-                android:contentDescription="@null"
-                android:padding="7dp"
-                android:src="@drawable/wb_feed_icon_gps" />
+                android:src="@drawable/icon_map_loction"
+                style="@style/layer_loc_style"/>
         </LinearLayout>
-        
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -124,13 +110,13 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="3dp" >
+            android:visibility="gone">
 
             <CheckBox
                 android:id="@+id/cb_dxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="7dp" />
+                style="@style/custom_checkbox_style"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -138,18 +124,12 @@
                 android:layout_weight="1"
                 android:gravity="left|center"
                 android:text="地形图"
-                android:textColor="@color/balck"
-                android:textSize="15sp" />
+                android:textColor="@color/balck" />
 
             <ImageView
                 android:id="@+id/dxt_extent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:background="@drawable/background_view_rounded_image"
-                android:contentDescription="@null"
-                android:padding="7dp"
-                android:src="@drawable/wb_feed_icon_gps" />
+                android:src="@drawable/icon_map_loction"
+                style="@style/layer_loc_style" />
         </LinearLayout>
 
         <View

@@ -167,7 +167,7 @@
             android:src="@drawable/color_button_bg" />
     </GridLayout>
 
-    <com.otitan.sclyyq.color.ColorPickerView
+    <com.titan.baselibrary.color.ColorPickerView
         android:id="@+id/color_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

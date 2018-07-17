@@ -27,10 +27,12 @@ public class LocationDaoImpl implements ILocationDao {
         option.setOpenGps(true);
         // 打开gps
         option.setIgnoreKillProcess(false);
+
         //可选，定位SDK内部是一个service，并放到了独立进程。
         //设置是否在stop的时候杀死这个进程，默认（建议）不杀死，即setIgnoreKillProcess(true)
         option.setCoorType("bd09ll"); // 设置坐标类型bd09ll gcj02
         option.setScanSpan(1000);
+        option.setIsNeedAddress(true);
         client.setLocOption(option);
         client.start();
     }

@@ -1,5 +1,6 @@
 package com.otitan.sclyyq.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +14,15 @@ import com.otitan.sclyyq.util.BussUtil;
  * 林木采伐管理系统
  */
 public class LmcfActivity extends BaseActivity {
+    @Override
+    public void setReportDialog(Dialog dialog) {
 
+    }
+
+    @Override
+    public Dialog getReportDialog() {
+        return null;
+    }
     private View parentView;
 
     @Override

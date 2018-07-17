@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../LibraryManager/LibraryManager.iml" filepath="$PROJECT_DIR$/../LibraryManager/LibraryManager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Titan_scly.iml" filepath="$PROJECT_DIR$/Titan_scly.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../LibraryManager/baselibrary/baselibrary.iml" filepath="$PROJECT_DIR$/../LibraryManager/baselibrary/baselibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../LibraryManager/photopicker/photopicker.iml" filepath="$PROJECT_DIR$/../LibraryManager/photopicker/photopicker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../LibraryManager/proj4android/proj4android.iml" filepath="$PROJECT_DIR$/../LibraryManager/proj4android/proj4android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/609739811/LibraryManager.iml" filepath="$PROJECT_DIR$/.idea/modules/609739811/LibraryManager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Titan_scly.iml" filepath="$PROJECT_DIR$/.idea/modules/Titan_scly.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1090921694/baselibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/1090921694/baselibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../LibraryManager/medialibrary/medialibrary.iml" filepath="$PROJECT_DIR$/../LibraryManager/medialibrary/medialibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2085978796/photopicker.iml" filepath="$PROJECT_DIR$/.idea/modules/-2085978796/photopicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-165762940/proj4android.iml" filepath="$PROJECT_DIR$/.idea/modules/-165762940/proj4android.iml" />
       <module fileurl="file://$PROJECT_DIR$/../LibraryManager/versionupdata/versionupdata.iml" filepath="$PROJECT_DIR$/../LibraryManager/versionupdata/versionupdata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zbslzy/zbslzy.iml" filepath="$PROJECT_DIR$/zbslzy/zbslzy.iml" />
     </modules>
   </component>
 </project>

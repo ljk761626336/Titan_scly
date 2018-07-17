@@ -1,6 +1,5 @@
 package com.otitan.sclyyq.util;
 
-import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.SpatialReference;
 
 /**
@@ -11,7 +10,7 @@ import com.esri.core.geometry.SpatialReference;
 public class SpatialUtil {
 
     public static SpatialReference getDefaultSpatialReference(){
-        return SpatialReference.create(4490);
+        return SpatialReference.create(3857);
     }
 
     public static SpatialReference getSpatialWgs4326(){

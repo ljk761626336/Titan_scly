@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import com.otitan.sclyyq.MyApplication;
 import com.otitan.sclyyq.R;
-import com.otitan.sclyyq.color.ColorPickerView;
 import com.otitan.sclyyq.color.SansumColorSelecter;
 import com.otitan.sclyyq.entity.MyLayer;
+import com.titan.baselibrary.color.ColorPickerView;
 import com.titan.baselibrary.listener.CancleListener;
 
 /**

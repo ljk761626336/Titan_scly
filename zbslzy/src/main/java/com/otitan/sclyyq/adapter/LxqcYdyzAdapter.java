@@ -29,13 +29,11 @@ import com.otitan.sclyyq.swipemenulistview.SwipeMenuCreator;
 import com.otitan.sclyyq.swipemenulistview.SwipeMenuItem;
 import com.otitan.sclyyq.swipemenulistview.SwipeMenuListView;
 import com.otitan.sclyyq.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
-import com.otitan.sclyyq.timepaker.TimePopupWindow;
-import com.otitan.sclyyq.timepaker.TimePopupWindow.OnTimeSelectListener;
-import com.otitan.sclyyq.timepaker.TimePopupWindow.Type;
 import com.otitan.sclyyq.util.BussUtil;
 import com.otitan.sclyyq.util.CursorUtil;
 import com.otitan.sclyyq.util.ToastUtil;
 import com.otitan.sclyyq.util.Util;
+import com.titan.baselibrary.timepaker.TimePopupWindow;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -185,10 +183,10 @@ public class LxqcYdyzAdapter extends BaseAdapter {
 	/** 时间选择popupwindow */
 	public void initSelectTimePopuwindow(final Line line,final TextView editText) {
 		TimePopupWindow timePopupWindow = new TimePopupWindow(mContext,
-				Type.ALL);
+				TimePopupWindow.Type.ALL);
 		timePopupWindow.setCyclic(true);
 		// 时间选择后回调
-		timePopupWindow.setOnTimeSelectListener(new OnTimeSelectListener() {
+		timePopupWindow.setOnTimeSelectListener(new TimePopupWindow.OnTimeSelectListener() {
 
 			@Override
 			public void onTimeSelect(Date date) {

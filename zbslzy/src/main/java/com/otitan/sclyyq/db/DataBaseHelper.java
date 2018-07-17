@@ -12,6 +12,7 @@ import com.otitan.sclyyq.dao.Jgdc;
 import com.otitan.sclyyq.dao.JgdcDao;
 import com.otitan.sclyyq.dao.Ym;
 import com.otitan.sclyyq.dao.YmDao;
+import com.otitan.sclyyq.entity.Emergency;
 import com.otitan.sclyyq.entity.Row;
 import com.otitan.sclyyq.util.BussUtil;
 import com.otitan.sclyyq.util.ResourcesManager;
@@ -24,6 +25,7 @@ import java.util.Map;
 import de.greenrobot.dao.query.DeleteQuery;
 import de.greenrobot.dao.query.QueryBuilder;
 import jsqlite.Callback;
+import jsqlite.Constants;
 import jsqlite.Database;
 
 /**
@@ -59,6 +61,43 @@ public class DataBaseHelper {
         } catch (Exception e) {
             e.printStackTrace();
             return;
+        }
+    }
+
+    /*删除未上报的事件数据*/
+    public static boolean delUnResportData(Context context,String ID){
+        try {
+            String databaseName = ResourcesManager.getInstance(context).getDataBase("db.sqlite");
+            Class.forName("jsqlite.JDBCDriver").newInstance();
+            Database db = new jsqlite.Database();
+            db.open(databaseName, Constants.SQLITE_OPEN_READWRITE);
+            //组件一个添加sq语句
+            String sql = "delete from EMERGENCY where ID ='"+ID+"'";
+            db.exec(sql, null);
+            db.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /*添加未上报的事件数据*/
+    public static boolean addUnResportData(Context context,Emergency emer){
+        try {
+            String databaseName = ResourcesManager.getInstance(context).getDataBase("db.sqlite");
+            Class.forName("jsqlite.JDBCDriver").newInstance();
+            Database db = new jsqlite.Database();
+            db.open(databaseName, Constants.SQLITE_OPEN_READWRITE);
+            //组件一个添加sq语句
+            String sql = "insert into EMERGENCY values(null,'"+emer.getXJ_JD()+"','"+emer.getXJ_WD()+"','"+emer.getXJ_SJMC()+"','"+emer.getXJ_MSXX()+"','"+emer.getXJ_ZPDZ().toString()+"','"+emer.getXJ_SBBH()+"','"+emer.getREMARK()+"')";
+            db.exec(sql, null);
+            db.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("tag","dataError:"+e);
+            return false;
         }
     }
 

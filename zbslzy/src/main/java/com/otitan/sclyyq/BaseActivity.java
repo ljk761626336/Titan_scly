@@ -1,16 +1,5 @@
 package com.otitan.sclyyq;
 
-import java.io.File;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.xmlpull.v1.XmlPullParser;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -97,62 +86,81 @@ import com.esri.core.tasks.na.NAFeaturesAsFeature;
 import com.esri.core.tasks.na.RouteTask;
 import com.esri.core.tasks.na.StopGraphic;
 import com.esri.core.tasks.query.QueryParameters;
+import com.lling.photopicker.PhotoPickerActivity;
+import com.otitan.sclyyq.activity.EventReportActivity;
 import com.otitan.sclyyq.adapter.FeatureArraysAdapter;
 import com.otitan.sclyyq.adapter.FeatureResultAdapter;
 import com.otitan.sclyyq.adapter.SetAdapter;
 import com.otitan.sclyyq.custom.MorePopWindow;
 import com.otitan.sclyyq.daoImpl.LocationDaoImpl;
 import com.otitan.sclyyq.dialog.AddAddressDialog;
+import com.otitan.sclyyq.dialog.CoordinateDialog;
 import com.otitan.sclyyq.dialog.EditPhotoDialog;
+import com.otitan.sclyyq.dialog.FeatureDelDialog;
 import com.otitan.sclyyq.dialog.GpsSetDialog;
+import com.otitan.sclyyq.dialog.JjxxsbDialog;
 import com.otitan.sclyyq.dialog.LayerSelectDialog;
+import com.otitan.sclyyq.dialog.MergeFeatureDialog;
 import com.otitan.sclyyq.dialog.RenderSetDialog;
+import com.otitan.sclyyq.dialog.ResultAreaDialog;
 import com.otitan.sclyyq.dialog.SettingDialog;
+import com.otitan.sclyyq.dialog.ShouCangDialog;
 import com.otitan.sclyyq.dialog.SpaceStatisticsDialog;
 import com.otitan.sclyyq.dialog.UpdataMobileInfoDialog;
+import com.otitan.sclyyq.drawTool.DrawEvent;
 import com.otitan.sclyyq.drawTool.DrawEventListener;
 import com.otitan.sclyyq.drawTool.DrawTool;
 import com.otitan.sclyyq.edite.activity.LineEditActivity;
 import com.otitan.sclyyq.edite.activity.PointEditActivity;
 import com.otitan.sclyyq.edite.activity.XbEditActivity;
+import com.otitan.sclyyq.entity.ActionMode;
 import com.otitan.sclyyq.entity.MyFeture;
+import com.otitan.sclyyq.entity.MyLayer;
+import com.otitan.sclyyq.entity.Row;
+import com.otitan.sclyyq.mview.IBaseView;
+import com.otitan.sclyyq.mview.IEventReportView;
 import com.otitan.sclyyq.mview.ILayerControlView;
 import com.otitan.sclyyq.mview.ILayerView;
+import com.otitan.sclyyq.mview.INavigatView;
+import com.otitan.sclyyq.mview.ITrajectoryView;
 import com.otitan.sclyyq.mview.IYzlView;
 import com.otitan.sclyyq.permission.PermissionsChecker;
 import com.otitan.sclyyq.presenter.BasePresenter;
+import com.otitan.sclyyq.presenter.DrawFeaturePresenter;
 import com.otitan.sclyyq.presenter.GpsCollectPresenter;
+import com.otitan.sclyyq.presenter.LayerControlPresenter;
 import com.otitan.sclyyq.presenter.LayerLablePresenter;
+import com.otitan.sclyyq.presenter.NavigationPresenter;
+import com.otitan.sclyyq.presenter.RepairPresenter;
+import com.otitan.sclyyq.presenter.TrajectoryPresenter;
 import com.otitan.sclyyq.presenter.XbqueryPresenter;
+import com.otitan.sclyyq.util.ArcGISUtils;
 import com.otitan.sclyyq.util.BaseUtil;
 import com.otitan.sclyyq.util.BussUtil;
+import com.otitan.sclyyq.util.ConverterUtil;
 import com.otitan.sclyyq.util.GDBUtil;
 import com.otitan.sclyyq.util.GeometryEngineUtil;
 import com.otitan.sclyyq.util.SpatialUtil;
 import com.otitan.sclyyq.util.SymbolUtil;
-import com.otitan.sclyyq.util.Util;
-import com.otitan.sclyyq.dialog.CoordinateDialog;
-import com.otitan.sclyyq.dialog.FeatureDelDialog;
-import com.otitan.sclyyq.dialog.MergeFeatureDialog;
-import com.otitan.sclyyq.dialog.ResultAreaDialog;
-import com.otitan.sclyyq.mview.INavigatView;
-import com.otitan.sclyyq.permission.PermissionsActivity;
-import com.otitan.sclyyq.dialog.ShouCangDialog;
-import com.otitan.sclyyq.drawTool.DrawEvent;
-import com.otitan.sclyyq.entity.ActionMode;
-import com.otitan.sclyyq.entity.MyLayer;
-import com.otitan.sclyyq.entity.Row;
-import com.otitan.sclyyq.presenter.LayerControlPresenter;
-import com.otitan.sclyyq.presenter.NavigationPresenter;
-import com.otitan.sclyyq.presenter.RepairPresenter;
-import com.otitan.sclyyq.presenter.TrajectoryPresenter;
-import com.otitan.sclyyq.util.ArcGISUtils;
-import com.otitan.sclyyq.util.ConverterUtil;
 import com.otitan.sclyyq.util.SytemUtil;
 import com.otitan.sclyyq.util.ToastUtil;
+import com.otitan.sclyyq.util.Util;
 import com.otitan.sclyyq.util.ZoomControlView;
 import com.titan.baselibrary.util.DialogParamsUtil;
 import com.titan.baselibrary.util.ProgressDialogUtil;
+import com.titan.medialibrary.activity.AudioRecorderActivity;
+import com.titan.medialibrary.activity.VideoRecorderActivity;
+
+import org.xmlpull.v1.XmlPullParser;
+
+import java.io.File;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by li on 2016/5/26.
@@ -160,13 +168,30 @@ import com.titan.baselibrary.util.ProgressDialogUtil;
  */
 //@RuntimePermissions //@RuntimePermissions 注释此活动或碎片
 public abstract class BaseActivity extends AppCompatActivity implements LayerSelectDialog.SetOnItemClickListener,
-        View.OnClickListener, DrawEventListener, IYzlView, ILayerControlView, ILayerView, INavigatView {
+        View.OnClickListener, DrawEventListener, IYzlView, ILayerControlView, ILayerView, INavigatView,
+        ITrajectoryView,IEventReportView {
 
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE
     };
+
+    public ArrayList<String> picList = new ArrayList<>();
+
+    public static Dialog getDialog() {
+        return dialog;
+    }
+
+    public static void setDialog(Dialog dialog) {
+        BaseActivity.dialog = dialog;
+    }
+    /*现场事件上报，在图片回调中使用*/
+    private static Dialog dialog = null;
+    public static IBaseView baseView;
     private static final int REQUEST_CODE = 0; // 请求码
     private PermissionsChecker mPermissionsChecker; // 权限检测器
 
@@ -203,7 +228,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     public double bfPointLat = 0.0;
     /* 当前位置点 */
     public static Point currentPoint = new Point(0, 0);
-    public static Point gpsPoint = new Point(0,0);
+    public static Point gpsPoint = new Point(0, 0);
     /* 导航终点*/
     private Point navstopoint = new Point(0, 0);
     /* 自动定位绘制误差圆及中心点 */
@@ -238,6 +263,8 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     public static final int FREEHAND_POLYLINEGPS = 9;
     /* featureLayer图形几何类型 */
     public com.esri.core.geometry.Geometry.Type layerType;
+    /* 新增小班模式 0线绘 1点绘*/
+    public int addModel;
     /* 标识进入系统名称 */
     public String activitytype;
     /*测量面积 */
@@ -305,6 +332,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     private long firstTime = 0;
     private static final int ALBUM = 0x000002;
     public static final int TAKE_PHOTO = 0x000001;
+    public static final int PICK_PHOTO = 0x000003;
+    public static final int PICK_AUDIO = 0x000004;
+    public static final int PICK_VIDEO = 0x000005;
     private String mCurrentPhotoPath = "";// 图片路径
     public static Point touchpoint;
     /*GPS位置监听 */
@@ -312,6 +342,8 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     /*显示当前位置控件 */
     private TextView mylocationValue;
     private TextView mapscaleValue;
+    /*当前位置所在位置*/
+    public String addr, country, province, city, district, street;
     /*otms文件夹下各个系统的配置数据*/
     public List<Row> proData = new ArrayList<Row>();
     /*空间统计用到的变量*/
@@ -331,11 +363,14 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     public TrajectoryPresenter trajectoryPresenter;
     public LayerControlPresenter layerControlPresenter;
     public LayerLablePresenter lablePresenter;
+    public DrawFeaturePresenter drawFeaturePresenter;
     /*baseActivity页面include*/
     public View xbqdInclude, tckzInclude, tckzImgInclude, minegjsearchInclude, otherGjSearchInclude, layerLableInclude,
-            xbbjInclude, xbSearchZdyInclude, xbSearchJdInclude, gpsCaijiInclude, xdmSearchInclude;
+            xbbjInclude, xbSearchZdyInclude, xbSearchJdInclude, trajectoryView, gpsCaijiInclude, xdmSearchInclude, dotPainting;
+    /*轨迹记录按钮*/
+    public TextView startRecordView, suspendRecordView, lableRecordView, endRecordView;
     /*在include内的view但是需要做全局变量的*/
-    public ImageView sjtbImgview, gjsearchImgview, dmMangerImgview, personCenter, xbbjImgview, tcxrImgview, xbsearchImgview;
+    public TextView sjtbImgview, gjsearchImgview, dmMangerImgview, personCenter, xbbjImgview, tcxrImgview, xbsearchImgview;
     /*小班编辑RadioButton*/
     public RadioButton addFeatureBtn, addFeatureGbBtn, selectButton, qiegeButton, hebingButton, xiubanButton,
             repealButton, attributButton, deleteButton, copyButton;
@@ -361,14 +396,14 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         initData();
         /* 定位设置 */
         initLocation();
-		/* 地图控件初始化 */
+        /* 地图控件初始化 */
         initView();
         /*初始化presenter*/
         initPresenter();
-		/* 添加地图 */
+        /* 添加地图 */
         addLayer();
         mapviewStatusChange();
-		/* 定义样式 */
+        /* 定义样式 */
         initSymbol();
         /*设置五参数*/
         //initGpsSettings();
@@ -376,6 +411,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         layerNameList.clear();
         //featureLayerList.clear();
         //featureLayer = null;
+        baseView = this;
     }
 
     public abstract View getParentView();
@@ -386,12 +422,13 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     private void initPresenter() {
         basePresenter = new BasePresenter(BaseActivity.this, this);
         xbqueryPresenter = new XbqueryPresenter(mContext, this);
-        trajectoryPresenter = new TrajectoryPresenter(BaseActivity.this, this);
+        trajectoryPresenter = new TrajectoryPresenter(this);
         gpsCollectPresenter = new GpsCollectPresenter(mContext, this);
         navigationPresenter = new NavigationPresenter(mContext, this);
         repairPresenter = new RepairPresenter(mContext, this, basePresenter);
         lablePresenter = new LayerLablePresenter(mContext, this);
         layerControlPresenter = new LayerControlPresenter(mContext, this, this);
+        drawFeaturePresenter = new DrawFeaturePresenter(this);
     }
 
     /**
@@ -440,36 +477,54 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         gpsCaijiInclude = childview.findViewById(R.id.gpscaiji_include);
         /*图层标注view*/
         layerLableInclude = childview.findViewById(R.id.shuxinglable_include);
+        /*新增小班点绘*/
+        dotPainting = childview.findViewById(R.id.add_feature_point);
+        /*开始记录*/
+        trajectoryView = childview.findViewById(R.id.trajectoryView);
+        trajectoryView.setOnClickListener(this);
         /**========================================================================*/
+        /*轨迹记录按钮*/
+        startRecordView = trajectoryView.findViewById(R.id.record_start);
+        startRecordView.setOnClickListener(this);
+        suspendRecordView = trajectoryView.findViewById(R.id.record_suspend);
+        suspendRecordView.setOnClickListener(this);
+        lableRecordView = trajectoryView.findViewById(R.id.record_lable);
+        lableRecordView.setOnClickListener(this);
+        endRecordView = trajectoryView.findViewById(R.id.record_end);
+        endRecordView.setOnClickListener(this);
+
         /*图层控制按钮*/
-        ImageView tckzImgView = (ImageView) childview.findViewById(R.id.tckz_imageview);
+        TextView tckzImgView = childview.findViewById(R.id.tckz_imageview);
         tckzImgView.setOnClickListener(this);
         /*数据同步*/
-        sjtbImgview = (ImageView) childview.findViewById(R.id.shuju_sjtb);
+        sjtbImgview = childview.findViewById(R.id.shuju_sjtb);
         sjtbImgview.setOnClickListener(this);
         /*小班清单按钮*/
-        ImageView xbqdImgview = (ImageView) childview.findViewById(R.id.share_xbqd);
+        TextView xbqdImgview = childview.findViewById(R.id.share_xbqd);
         xbqdImgview.setOnClickListener(this);
         /*轨迹查询*/
-        gjsearchImgview = (ImageView) childview.findViewById(R.id.share_gjcx);
+        gjsearchImgview = childview.findViewById(R.id.share_gjcx);
         gjsearchImgview.setOnClickListener(this);
         /*坐标定位*/
-        ImageView zbdwImgview = (ImageView) childview.findViewById(R.id.share_zbdw);
+        TextView zbdwImgview = childview.findViewById(R.id.share_zbdw);
         zbdwImgview.setOnClickListener(this);
         /*系统设置*/
-        ImageView settingImgview = (ImageView) childview.findViewById(R.id.share_xtsz);
+        TextView settingImgview = childview.findViewById(R.id.share_xtsz);
         settingImgview.setOnClickListener(this);
         /*地名管理*/
-        dmMangerImgview = (ImageView) childview.findViewById(R.id.share_dmgl);
+        dmMangerImgview = childview.findViewById(R.id.share_dmgl);
         dmMangerImgview.setOnClickListener(this);
         /*个人中心*/
-        personCenter = (ImageView) childview.findViewById(R.id.share_grzx);
+        personCenter = childview.findViewById(R.id.share_grzx);
         personCenter.setOnClickListener(this);
+        /*事件上报*/
+        TextView updataImgview = childview.findViewById(R.id.share_sjsb);
+        updataImgview.setOnClickListener(this);
         /*小班编辑*/
-        xbbjImgview = (ImageView) childview.findViewById(R.id.share_xbbj);
+        xbbjImgview = childview.findViewById(R.id.share_xbbj);
         xbbjImgview.setOnClickListener(this);
         /*小班查询 */
-        xbsearchImgview = (ImageView) childview.findViewById(R.id.share_xbcx);
+        xbsearchImgview = childview.findViewById(R.id.share_xbcx);
         xbsearchImgview.setOnClickListener(this);
         /*小班编辑子按钮*/
         selectButton = (RadioButton) childview.findViewById(R.id.selectButton);
@@ -482,15 +537,26 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         copyButton = (RadioButton) childview.findViewById(R.id.copyButton);
         addFeatureBtn = (RadioButton) childview.findViewById(R.id.addfeature);
         addFeatureGbBtn = (RadioButton) childview.findViewById(R.id.addfeaturegb);
+        /*新增小班点绘方式*/
+        Button startBtn = childview.findViewById(R.id.add_start);
+        startBtn.setOnClickListener(this);
+        Button addBtn = childview.findViewById(R.id.add_select);
+        addBtn.setOnClickListener(this);
+        Button undoBtn = childview.findViewById(R.id.add_undo);
+        undoBtn.setOnClickListener(this);
+        Button clearBtn = childview.findViewById(R.id.add_clear);
+        clearBtn.setOnClickListener(this);
+        Button cancelBtn = childview.findViewById(R.id.add_cancel);
+        cancelBtn.setOnClickListener(this);
         /**=====================================================================*/
         /*显示当前坐标view*/
         mylocationValue = (TextView) childview.findViewById(R.id.mylocationValue);
         /*显示当前比例尺view*/
         mapscaleValue = (TextView) childview.findViewById(R.id.mapScaleValue);
         /*空间统计*/
-        tcxrImgview = (ImageView) childview.findViewById(R.id.share_tcxr);
+        tcxrImgview = childview.findViewById(R.id.share_tcxr);
         tcxrImgview.setOnClickListener(this);
-        ImageView shuxingLable = (ImageView) childview.findViewById(R.id.shuxing_lable);
+        TextView shuxingLable = childview.findViewById(R.id.shuxing_lable);
         shuxingLable.setOnClickListener(this);
         /*gps采集工具栏*/
         gpstart = (Button) childview.findViewById(R.id.share_gps_start);
@@ -503,21 +569,20 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
      * 添加地图
      */
     public void addLayer() {
-		/* 基础底图 */
-        String titlePath = MyApplication.resourcesManager.getTitlePath();
-        tiledLayer = basePresenter.addTitleLayer(titlePath);
+        /* 基础底图 */
+        tiledLayer = basePresenter.addBaseLayer();
         /*设置地图范围*/
         mapView.setMaxExtent(extent);
-		/* 地形图 */
+        /* 地形图 */
         String dxtLayerPath = MyApplication.resourcesManager.getLayerPath();
         dxtTiledLayer = basePresenter.addTitleLayer(dxtLayerPath);
-		/* 县乡村边界图 */
+        /* 县乡村边界图 */
         String xzqhLayerPath = MyApplication.resourcesManager.getArcGISLocalyyLayerPath();
         basePresenter.addTitleLayer(xzqhLayerPath);
         /*触摸事件*/
         myTouchListener = new MyTouchListener(mContext, mapView);
         mapView.setOnTouchListener(myTouchListener);
-		/* 设置地图背景 */
+        /* 设置地图背景 */
         mapView.setMapBackground(0xffffff, 0xffffff, 3, 3);
         /*添加graphicLayer*/
         graphicsLayer = basePresenter.addGraphicLayer();
@@ -586,7 +651,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         }
     }
 
-    /**实时显示坐标*/
+    /**
+     * 实时显示坐标
+     */
     public void setLocationView() {
         runOnUiThread(new Runnable() {
             @SuppressLint("SetTextI18n")
@@ -598,10 +665,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
 
                 mylocationValue.setText("当前坐标:"
                         + decimalFormat.format(gpsPoint.getX()) + ","
-                        + decimalFormat.format(gpsPoint.getY())
-                        + "\n        经度:"
-                        + decimalFormat.format(currentPoint.getX()) + " 纬度:"
-                        + decimalFormat.format(currentPoint.getY()));
+                        + decimalFormat.format(gpsPoint.getY()));
             }
         });
     }
@@ -756,7 +820,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         }
         nav_stop = (EditText) naview.findViewById(R.id.navigation_stop);
 
-        ImageView close = (ImageView) naview.findViewById(R.id.navigation_close);
+        ImageView close = naview.findViewById(R.id.navigation_close);
         close.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -779,7 +843,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             }
             gps_start_flag = true;
             gps_spend_flag = false;
-            if(gps_stop_flag){
+            if (gps_stop_flag) {
                 gps_stop_flag = false;
             }
             gpstart.setEnabled(false);
@@ -794,19 +858,19 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         }
 
         gps_start_flag = true;
-        if(gps_spend_flag){
+        if (gps_spend_flag) {
             //不需要选择图层
             gpstart.setEnabled(false);
             gpspend.setEnabled(true);
             gps_spend_flag = false;
-        }else if(gps_stop_flag){
+        } else if (gps_stop_flag) {
             //点击结束按钮后
             gpsstart = false;
             gps_stop_flag = false;
             actionMode = ActionMode.MODE_EDIT_ADD;
             getFeatureLayer(actionMode);
 
-        }else{
+        } else {
             actionMode = ActionMode.MODE_EDIT_ADD;
             getFeatureLayer(actionMode);
         }
@@ -900,13 +964,13 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
 
                 basePresenter.uploadjdxzData();
 
-            }else if(params[0].equals("download")){
+            } else if (params[0].equals("download")) {
 
-                GDBUtil.downloadData(BaseActivity.this,activitytype);
+                GDBUtil.downloadData(BaseActivity.this, activitytype);
 
-            }else  if(params[0].equals("sync")){
+            } else if (params[0].equals("sync")) {
 
-                GDBUtil.synchronize(BaseActivity.this,activitytype);
+                GDBUtil.synchronize(BaseActivity.this, activitytype);
 
             }
             return null;
@@ -962,7 +1026,11 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             }
 
             currentPoint = getGPSpoint(location);
-
+            addr = location.getAddrStr();    //获取详细地址信息
+            province = location.getProvince();    //获取省份
+            city = location.getCity();    //获取城市
+            district = location.getDistrict();    //获取区县
+            street = location.getStreet();    //获取街道信息
             if (gps_start_flag && currentPoint != null && currentPoint.isValid()) {
                 if (gpsCollectPresenter.collection_type == 0) {
                     if (gps_stop_flag) {
@@ -985,26 +1053,29 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             showTravelLine(currentPoint);
 
             //addPointToLine(currentPoint);
-
+            //显示当前经纬度
+            setLocationView();
             if (bfPointLon != currentLon || bfPointLat != currentLat) {
+                /*手动记录轨迹*/
+                trajectoryPresenter.recordLine();
+
                 double distance = BussUtil.distance(bfPointLat, bfPointLon, currentLat, currentLon);
                 if (distance > 1) {
-					/* 上传坐标到后台 */
+                    /* 上传坐标到后台 */
                     //new MyAsyncTask().execute("uplonlat");
                     new UpPointThreed().start();
                 }
-                setLocationView();
                 bfPointLat = currentLat;
                 bfPointLon = currentLon;
             }
         }
     }
 
-    private class UpPointThreed extends Thread{
+    private class UpPointThreed extends Thread {
         @Override
         public void run() {
             super.run();
-            if(MyApplication.getInstance().netWorkTip()){
+            if (MyApplication.getInstance().netWorkTip()) {
                 basePresenter.addPointToServer(currentPoint);
             }
         }
@@ -1014,14 +1085,14 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
      * 获取位置坐标 GPS定位 网络定位 百度定位
      */
     private Point getGPSpoint(BDLocation blocation) {
-        Location location  = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (location == null) {
             location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
 
         /* 判别是取的gps坐标还是百度坐标 true 为百度坐标 */
         boolean dwflag = false;
-        double lon = 0.0,lat = 0.0;// 经度
+        double lon = 0.0, lat = 0.0;// 经度
         if (location != null) {
             //GPS坐标
             lat = location.getLatitude(); // 纬度 26.567741305680546
@@ -1036,7 +1107,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             dwflag = true;
         }
 
-        Point point = getPoint(lon, lat, altitude,dwflag);
+        Point point = getPoint(lon, lat, altitude, dwflag);
         if ((point != null || point.isValid()) && !point.isEmpty()) {
             currentLon = point.getX();
             currentLat = point.getY();
@@ -1075,7 +1146,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     /**
      * 百度点坐标转换为西安80坐标
      */
-    public Point getPoint(double longitude, double latitude, double altitude,boolean dwflag) {
+    public Point getPoint(double longitude, double latitude, double altitude, boolean dwflag) {
         if (dwflag) {
             Point point = ConverterUtil.gps2gCoordinate(longitude, latitude);
             Point gpsPoint = ConverterUtil.g2bCoordinate(point.getX(), point.getY());
@@ -1084,12 +1155,12 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             latitude = 2 * latitude - gpsPoint.getY();
         }
 
-        gpsPoint = new Point(longitude,latitude);
+        gpsPoint = new Point(longitude, latitude);
 
         Point point;
-        if(!spatialReference.isWGS84()){
+        if (!spatialReference.isWGS84()) {
             point = GeometryEngineUtil.getSpatialPoint(gpsPoint);
-        }else{
+        } else {
             point = gpsPoint;
         }
 
@@ -1252,9 +1323,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                         Graphic graphic = new Graphic(polygon, fillSymbol);
                         graphicsLayer.addGraphic(graphic);
                         double area = 0;
-                        if(SpatialUtil.getDefaultSpatialReference().equals(SpatialUtil.getSpatialWgs2343())){
+                        if (SpatialUtil.getDefaultSpatialReference().equals(SpatialUtil.getSpatialWgs2343())) {
                             area = Math.abs(polygon.calculateArea2D());
-                        }else{
+                        } else {
                             Polygon gon = GeometryEngineUtil.getSpatialPolygon2343(polygon);
                             area = Math.abs(gon.calculateArea2D());
                         }
@@ -1269,9 +1340,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                 if (actionMode == ActionMode.MODE_CEMIAN && drawType == FREEHAND_POLYGON) {
                     //double area = Math.abs(polygon_all.calculateArea2D());
                     double area = 0;
-                    if(SpatialUtil.getDefaultSpatialReference().equals(SpatialUtil.getSpatialWgs2343())){
+                    if (SpatialUtil.getDefaultSpatialReference().equals(SpatialUtil.getSpatialWgs2343())) {
                         area = Math.abs(polygon_all.calculateArea2D());
-                    }else{
+                    } else {
                         Polygon gon = GeometryEngineUtil.getSpatialPolygon2343(polygon_all);
                         area = Math.abs(gon.calculateArea2D());
                     }
@@ -1376,7 +1447,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                         envelope_all.setXMax(startPoint.getX() < point.getX() ? point.getX() : startPoint.getX());
                         envelope_all.setYMax(startPoint.getY() < point.getY() ? point.getY() : startPoint.getY());
                         if (graphicsLayer != null) {
-                            graphicsLayer.updateGraphic(graphicID,envelope_all.copy());
+                            graphicsLayer.updateGraphic(graphicID, envelope_all.copy());
                         }
                         break;
                     case FREEHAND_POLYGON:
@@ -1464,7 +1535,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                 int id = graphicsLayer.addGraphic(graphic);
                 showAddXdmView(mapPoint, id);
             } else if (actionMode == ActionMode.MODE_EDIT_ADD && layerType != null) {
-				/* 古树名木添加 */
+                /* 古树名木添加 */
                 if (layerType.equals(Geometry.Type.POINT)) {
                     point_all = mapPoint;
                     saveFeature(new Polygon());
@@ -1563,6 +1634,12 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                 /*个人中心 */
                 takephotoAndedit();
                 break;
+            case R.id.share_sjsb:
+                Intent intent = new Intent();
+                intent.setClass(this, EventReportActivity.class);
+                intent.putExtra("ID", "");
+                startActivity(intent);
+                break;
             case R.id.popup_mobile_info:
                 /* 个人中心 下拉 设备信息 */
                 personCenterPopup.dismiss();
@@ -1606,9 +1683,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                 //guijiPopwindow.showPopupWindow(gjsearchImgview);
                 //guijiPopwindow.getContentView().findViewById(R.id.mine_guiji).setOnClickListener(this);
                 //guijiPopwindow.getContentView().findViewById(R.id.show_guijizs).setOnClickListener(this);
-                if(minegjsearchInclude.getVisibility() == View.VISIBLE){
+                if (minegjsearchInclude.getVisibility() == View.VISIBLE) {
                     minegjsearchInclude.setVisibility(View.GONE);
-                }else{
+                } else {
                     minegjsearchInclude.setVisibility(View.VISIBLE);
                 }
                 trajectoryPresenter.initMyTrajectorySearch(minegjsearchInclude);
@@ -1617,7 +1694,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             case R.id.mine_guiji:
                 /* 轨迹查询--自身轨迹查询 */
                 //guijiPopwindow.dismiss();
-               // minegjsearchInclude.setVisibility(View.VISIBLE);
+                // minegjsearchInclude.setVisibility(View.VISIBLE);
                 //trajectoryPresenter.initMyTrajectorySearch(minegjsearchInclude);
                 break;
             case R.id.show_guijizs:
@@ -1657,23 +1734,23 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                 showUpdataTo();
                 break;
             case R.id.share_zbdw:
-			    /* 坐标定位 */
+                /* 坐标定位 */
                 showZbdwDialog();
                 break;
             case R.id.pop_photo_takephoto:
-			    /* 拍照 */
+                /* 拍照 */
                 mCurrentPhotoPath = basePresenter.takephoto();
                 break;
             case R.id.pop_photo_fromalum:
-			    /* 从相册选取 */
+                /* 从相册选取 */
                 basePresenter.fromAlum();
                 break;
             case R.id.pop_mycollect:
-			    /* 我的收藏 */
+                /* 我的收藏 */
                 myCollect();
                 break;
             case R.id.pop_xbsear_jiandan:
-			    /*简单查询*/
+                /*简单查询*/
                 xbSearchPopup.dismiss();
                 if (layerNameList.size() == 0) {//featureLayerList.size() == 0
                     ToastUtil.setToast(mContext, "请先加载空间数据");
@@ -1687,7 +1764,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                 }
                 break;
             case R.id.pop_xbsear_zidy:
-			/*自定义查询*/
+                /*自定义查询*/
                 xbSearchPopup.dismiss();
                 if (layerNameList.size() == 0) {//featureLayerList.size() == 0
                     ToastUtil.setToast(mContext, "请先加载空间数据");
@@ -1702,7 +1779,43 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                 break;
             case R.id.shuxing_lable:
                 /*属性标注*/
-                showFeatureLayer(ActionMode.MODE_ADD_LABLE,layerNameList);
+                showFeatureLayer(ActionMode.MODE_ADD_LABLE, layerNameList);
+                break;
+            case R.id.add_start:
+                /*开始采集*/
+                drawFeaturePresenter.start();
+                break;
+            case R.id.add_select:
+                /*确认选点*/
+                drawFeaturePresenter.addPoint();
+                break;
+            case R.id.add_undo:
+                /*撤销*/
+                drawFeaturePresenter.undo();
+                break;
+            case R.id.add_clear:
+                /*清除*/
+                drawFeaturePresenter.clear();
+                break;
+            case R.id.add_cancel:
+                /*取消*/
+                drawFeaturePresenter.cancel();
+                break;
+            case R.id.record_start:
+                //开始记录轨迹
+                trajectoryPresenter.startReport();
+                break;
+            case R.id.record_suspend:
+                //暂停记录轨迹
+                trajectoryPresenter.suspendReport();
+                break;
+            case R.id.record_lable:
+                //添加轨迹标注
+                trajectoryPresenter.lableReport();
+                break;
+            case R.id.record_end:
+                //结束记录轨迹
+                trajectoryPresenter.endReport();
                 break;
             default:
                 break;
@@ -1710,18 +1823,23 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
 
     }
 
-    /**离线同步数据下载*/
+    /**
+     * 离线同步数据下载
+     */
     public ArcGISFeatureLayer syncfeatureLayer;
     public String onlineServerPath = "";
-    public void showDownLoadData(){
+
+    public void showDownLoadData() {
         //onlineServerPath = mContext.getResources().getString(R.string.online_serverpath);
         //syncfeatureLayer = new ArcGISFeatureLayer(onlineServerPath, ArcGISFeatureLayer.MODE.ONDEMAND);
         //mapView.addLayer(syncfeatureLayer);
         new MyAsyncTask().execute("download");
     }
 
-    /**离线同步数据上传*/
-    public void showUpdataTo(){
+    /**
+     * 离线同步数据上传
+     */
+    public void showUpdataTo() {
         new AlertDialog.Builder(mContext, R.style.Dialog)
                 .setTitle("消息提示")
                 .setIcon(android.R.drawable.ic_dialog_info)
@@ -1802,6 +1920,30 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                     personCenterPopup.dismiss();
                 }
                 break;
+
+            case PICK_PHOTO://现场信息上报选择图片后
+                if(data != null){
+                    //图片选择成功
+                    picList.clear();
+                    picList = data.getStringArrayListExtra(PhotoPickerActivity.KEY_RESULT);
+                    ((JjxxsbDialog)dialog).loadPhoto();
+                }
+                break;
+            case PICK_AUDIO:
+
+                if(data != null){
+                    String path = data.getStringExtra(AudioRecorderActivity.KEY_RESULT);
+                    ((JjxxsbDialog)dialog).setAudioPath(path);
+                    ((JjxxsbDialog)dialog).setAudioname();
+                }
+                break;
+            case  PICK_VIDEO:
+                if(data != null){
+                    String path = data.getStringExtra(VideoRecorderActivity.KEY_RESULT);
+                    ((JjxxsbDialog)dialog).setVideoPath(path);
+                    ((JjxxsbDialog)dialog).showVideo();
+                }
+                break;
             case ALBUM:// 从相册选取
                 if (resultCode == RESULT_OK && null != data) {
                     Uri selectedImage = data.getData();
@@ -1816,13 +1958,6 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                             R.style.Dialog, picturePath, currentPoint);
                     dialog.show();
                     personCenterPopup.dismiss();
-                }
-                break;
-            case REQUEST_CODE:
-                // 拒绝时, 关闭页面, 缺少主要权限, 无法运行
-                if(resultCode == PermissionsActivity.PERMISSIONS_DENIED){
-                    //ToastUtil.setToast(mContext,"权限未获取无法运行");
-                    //finish();
                 }
                 break;
             default:
@@ -1852,15 +1987,25 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
      * 新增小班
      */
     public void addFeature(View view) {
-        initTouch();
-        if (polyline_all != null) {
-            graphicsLayer.updateGraphic(graphicID, polyline_all);
-            mapView.invalidate();
-        }
-        actionMode = ActionMode.MODE_EDIT_ADD;
-        getFeatureLayer(actionMode);
         if (layerNameList.size() == 0) {
             addFeatureBtn.setChecked(false);
+            ToastUtil.setToast(mContext, "未加载空间数据,请在图层控制中加载数据");
+            return;
+        }
+        if (addModel == 1) {
+            restory();
+            dotPainting.setVisibility(View.VISIBLE);
+            actionMode = ActionMode.MODE_NULL;
+            getFeatureLayer(actionMode);
+        } else {
+            dotPainting.setVisibility(View.GONE);
+            initTouch();
+            if (polyline_all != null) {
+                graphicsLayer.updateGraphic(graphicID, polyline_all);
+                mapView.invalidate();
+            }
+            actionMode = ActionMode.MODE_EDIT_ADD;
+            getFeatureLayer(actionMode);
         }
     }
 
@@ -2165,20 +2310,20 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     public void saveQgFeature(Polyline line, Geometry geom) {
         if (line == null || !line.isValid())
             return;
-		/* 判断两个图形是否有相交部分 */
+        /* 判断两个图形是否有相交部分 */
         boolean flag = GeometryEngine.intersects(geom, line, spatialReference);
-		/* flag为true时线段与所选小班有交互 反之无交互 */
+        /* flag为true时线段与所选小班有交互 反之无交互 */
         if (!flag) {
             ToastUtil.setToast(mContext, "两个图斑无交集");
             return;
         }
         clear();
-		/* 获取到线与面相交的部分 */
+        /* 获取到线与面相交的部分 */
         Polyline cutGeom = (Polyline) GeometryEngine.intersect(geom, line, spatialReference);
         if (cutGeom == null || cutGeom.isEmpty() || !cutGeom.isValid()) {
             return;
         }
-		/* 判断交线是否自相交 */
+        /* 判断交线是否自相交 */
         int line_size = cutGeom.getPointCount();
         Point startCut = cutGeom.getPoint(0);
         Point endCut = cutGeom.getPoint(line_size - 1);
@@ -2187,8 +2332,8 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         boolean zxjflag = ArcGISUtils.isIntersect(cutGeom, mapView);
 
         if (zxjflag) {
-			/* 线段自交 */
-			/* 判断首位交点是否都是在选择geometry面内,如果有一个不在面内则不符合切割规则 */
+            /* 线段自交 */
+            /* 判断首位交点是否都是在选择geometry面内,如果有一个不在面内则不符合切割规则 */
             ToastUtil.setToast(mContext, "线段自交,封闭切割");
 
             Polygon polygon = ArcGISUtils.LineToPolygon(mContext, line, mapView);
@@ -2201,8 +2346,8 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             basePresenter.addFeatureOnLayer(geometry, selectFeatureAts);
 
         } else {
-			/* 线段不自交 */
-			/* 判断首位交点是否都是在选择geometry面内,如果有一个不在面内则不符合切割规则 */
+            /* 线段不自交 */
+            /* 判断首位交点是否都是在选择geometry面内,如果有一个不在面内则不符合切割规则 */
             if (!(sflag && eflag)) {
                 ToastUtil.setToast(mContext, "不满足图斑切割规则");
                 return;
@@ -2251,7 +2396,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                     break;
                 }
             }
-			/* 以线的起点为新Geometry的起点 获取线的右侧的面 */
+            /* 以线的起点为新Geometry的起点 获取线的右侧的面 */
             Polygon yPolygon = new Polygon();
             for (int i = 0; i < line_size; i++) {
                 if (i == 0) {
@@ -2339,8 +2484,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
      * 初始化系统设置dialog窗口
      */
     public void showDialogSettings() {
-        SettingDialog settingDialog = new SettingDialog(mContext, R.style.Dialog, this,gpsCollectPresenter);
-        BussUtil.setDialogParams(mContext, settingDialog, 0.5, 0.65);
+        SettingDialog settingDialog = new SettingDialog(mContext, R.style.Dialog, this,
+                gpsCollectPresenter, this);
+        BussUtil.setDialogParams(mContext, settingDialog, 0.5, 0.5);
     }
 
     /**
@@ -2357,7 +2503,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     public void initGuijiSearchView() {
         // 还未完成
         otherGjSearchInclude.setVisibility(View.VISIBLE);
-        ImageView imageView = (ImageView) otherGjSearchInclude.findViewById(R.id.viewguji_close);
+        ImageView imageView = otherGjSearchInclude.findViewById(R.id.viewguji_close);
         imageView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -2416,8 +2562,10 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         });
     }
 
-    /**加载otms文件夹下数据*/
-    public void initOtmsChild(List<File> groups, List<Map<String, List<File>>> childs,int gPosition, int cPosition) {
+    /**
+     * 加载otms文件夹下数据
+     */
+    public void initOtmsChild(List<File> groups, List<Map<String, List<File>>> childs, int gPosition, int cPosition) {
         String parentName = groups.get(gPosition).getName();
         String childName = childs.get(gPosition).get(parentName).get(cPosition).getName().split("\\.")[0];
         String path = childs.get(gPosition).get(parentName).get(cPosition).getPath();
@@ -2426,9 +2574,11 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         layerControlPresenter.changeCBoxStatus(ischeck, path, parentName, childName);
     }
 
-    /**缩放至图元所在位置*/
+    /**
+     * 缩放至图元所在位置
+     */
     public void ZoomToGeom(Geometry geometry) {
-        if(geometry.getType() == Geometry.Type.POINT){
+        if (geometry.getType() == Geometry.Type.POINT) {
             return;
         }
         mapView.setExtent(geometry);
@@ -2516,7 +2666,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     public View loadCalloutPoint(Polyline polyline) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.callout, null);
 
-        ImageView close = (ImageView) view.findViewById(R.id.img_delete);
+        ImageView close = view.findViewById(R.id.img_delete);
         close.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -2530,9 +2680,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         DecimalFormat df = new DecimalFormat("0.00");
 
         double dd = 0;
-        if(SpatialUtil.getDefaultSpatialReference().equals(SpatialReference.create(2343))){
+        if (SpatialUtil.getDefaultSpatialReference().equals(SpatialReference.create(2343))) {
             dd = Math.abs(polyline.calculateLength2D());
-        }else{
+        } else {
             Polyline line = GeometryEngineUtil.getSpatialLine2343(polyline);
             dd = Math.abs(line.calculateLength2D());
         }
@@ -2580,7 +2730,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         });
     }
 
-    /**数据初始化*/
+    /**
+     * 数据初始化
+     */
     public void restory() {
         this.active = false;
         this.drawType = -1;
@@ -2593,7 +2745,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         actionMode = ActionMode.MODE_NULL;
     }
 
-    /**清除标绘*/
+    /**
+     * 清除标绘
+     */
     public void clear() {
         if (graphicsLayer != null) {
             graphicsLayer.removeAll();
@@ -2602,7 +2756,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         }
     }
 
-    /**勾绘数据清空*/
+    /**
+     * 勾绘数据清空
+     */
     public void deactivate() {
         clear();
         this.active = false;
@@ -2615,7 +2771,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         this.startPoint = null;
     }
 
-    /**初始化勾绘数据*/
+    /**
+     * 初始化勾绘数据
+     */
     public void activate(int drawType) {
         if (mapView == null)
             return;
@@ -2693,7 +2851,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
 
     }
 
-    /**显示小班查询数据*/
+    /**
+     * 显示小班查询数据
+     */
     private void showFeaturInfo(Geometry geometry, FeatureResult result) {
         Iterator<Object> iterator = result.iterator();
         GeodatabaseFeature feature = null;
@@ -2712,10 +2872,10 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
      * 编辑图层选择窗口， 选择要编辑的图层
      */
     public void showFeatureLayer(ActionMode mode, List<MyLayer> layerList) {//
-        if(layerList.size() == 0){
-            ToastUtil.setToast(mContext,"请先加载图层");
+        if (layerList.size() == 0) {
+            ToastUtil.setToast(mContext, "请先加载图层");
             return;
-        }else if(layerList.size() == 1){
+        } else if (layerList.size() == 1) {
             actionMode = mode;
             myLayer = layerNameList.get(0);
             layerType = myLayer.getLayer().getGeometryType();
@@ -2727,9 +2887,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             }
             SytemUtil.getEditSymbo(BaseActivity.this, myLayer.getLayer());
             selectMethed(mode);
-        }else{
+        } else {
             actionMode = mode;
-            LayerSelectDialog selectDialog = new LayerSelectDialog(mContext,R.style.Dialog,layerList,mode);
+            LayerSelectDialog selectDialog = new LayerSelectDialog(mContext, R.style.Dialog, layerList, mode);
             selectDialog.setLayerOnItemClickListener(this);
             BussUtil.setDialogParams(mContext, selectDialog, 0.5, 0.5);
         }
@@ -2776,7 +2936,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
      * 弹出添加小地名窗口
      */
     public void showAddXdmView(Point mappoint, int id) {
-        AddAddressDialog addressDialog = new AddAddressDialog(mContext,R.style.Dialog,mappoint,id,this);
+        AddAddressDialog addressDialog = new AddAddressDialog(mContext, R.style.Dialog, mappoint, id, this);
         BussUtil.setDialogParams(mContext, addressDialog, 0.5, 0.6);
     }
 
@@ -2870,7 +3030,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     GeodatabaseFeature feature = selGeoFeaturesList.get(position);
-                    MyLayer myLayer = BaseUtil.getIntance(mContext).getFeatureInLayer(feature,layerNameList,selMap);
+                    MyLayer myLayer = BaseUtil.getIntance(mContext).getFeatureInLayer(feature, layerNameList, selMap);
                     FeatureTable featureTable = myLayer.getTable();
 
                     featureTable.deleteFeature(id);
@@ -2925,8 +3085,8 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
      * 合并小班选择保留哪个小班属性
      */
     public void showHeBing(final List<GeodatabaseFeature> list, final View view) {
-        MergeFeatureDialog mergeFeatureDialog = new MergeFeatureDialog(mContext,R.style.Dialog,list,this,basePresenter);
-        DialogParamsUtil.setDialogParamsCenter(mContext,mergeFeatureDialog,0.4,0.5);
+        MergeFeatureDialog mergeFeatureDialog = new MergeFeatureDialog(mContext, R.style.Dialog, list, this, basePresenter);
+        DialogParamsUtil.setDialogParamsCenter(mContext, mergeFeatureDialog, 0.4, 0.5);
     }
 
     /**
@@ -2942,7 +3102,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             GeodatabaseFeatureTable table = myLayer.getTable();
             long id = table.addFeature(feature);
 
-			/* 添加小班后 记录添加小班的id 备撤销时删除 */
+            /* 添加小班后 记录添加小班的id 备撤销时删除 */
             basePresenter.recordXb(id, "add", feature.getAttributes(), feature.getGeometry(), layer);
         } catch (TableException e) {
             e.printStackTrace();
@@ -2973,7 +3133,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         }
     }
 
-    /**多条path时小班修改保存*/
+    /**
+     * 多条path时小班修改保存
+     */
     public void saveXbAllPath(Polyline drawline) {
         Graphic graphic2 = null;
         Polygon selectPpolygon = (Polygon) selectGeometry;
@@ -3032,7 +3194,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                 String path = layerNameList.get(i).getPath();
                 childCheckBox.put(path, false);
                 SytemUtil.jiamicript(path);
-                if(layerNameList.get(i).getLayer() != null && layerNameList.get(i).getLayer().isInitialized()){
+                if (layerNameList.get(i).getLayer() != null && layerNameList.get(i).getLayer().isInitialized()) {
                     mapView.removeLayer(layerNameList.get(i).getLayer());
                 }
             }
@@ -3048,8 +3210,11 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             getGeometryInfo(geometry, layer);
         }
     }
-    /**根据勾选的区域查询图层小班的ids*/
-    public void getGeometryIds(final Geometry geometry, final MyLayer layer){
+
+    /**
+     * 根据勾选的区域查询图层小班的ids
+     */
+    public void getGeometryIds(final Geometry geometry, final MyLayer layer) {
         selGeoFeaturesList.clear();
         QueryParameters queryParams = new QueryParameters();
         queryParams.setOutFields(new String[]{"*"});
@@ -3062,7 +3227,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             @Override
             public void onCallback(long[] longs) {
                 ProgressDialogUtil.stopProgressDialog(mContext);
-                if(longs.length > 0){
+                if (longs.length > 0) {
                     featureIds = longs;
                     runOnUiThread(new Runnable() {
                         @Override
@@ -3080,8 +3245,10 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         });
     }
 
-    /**绑定小班清单数据*/
-    private void initXbdqData(MyLayer layer){
+    /**
+     * 绑定小班清单数据
+     */
+    private void initXbdqData(MyLayer layer) {
         xbqdInclude.setVisibility(View.VISIBLE);
         final View view = xbqdInclude.findViewById(R.id.share_xbqd_top);
         if (featureIds.length > 0) {
@@ -3119,7 +3286,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         });
 
 
-        ImageView close = (ImageView) xbqdInclude.findViewById(R.id.share_xbqd_close);
+        ImageView close = xbqdInclude.findViewById(R.id.share_xbqd_close);
         close.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -3130,7 +3297,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         });
     }
 
-    /**根据勾绘区域查询图层小班*/
+    /**
+     * 根据勾绘区域查询图层小班
+     */
     public void getGeometryInfo(final Geometry geometry, final MyLayer layer) {
         selGeoFeaturesList.clear();
         QueryParameters queryParams = new QueryParameters();
@@ -3140,6 +3309,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         queryParams.setReturnGeometry(true);
         queryParams.setWhere("1=1");
         queryParams.setOutSpatialReference(spatialReference);
+        layer.getLayer().setSelectionColorWidth(10);
         layer.getLayer().selectFeatures(queryParams, SelectionMode.NEW,
                 new CallbackListener<FeatureResult>() {
 
@@ -3202,7 +3372,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
      * 删除选中时如果选中了多个小班弹出选择删除哪个小班
      */
     public void showDelFeatureResult(final List<GeodatabaseFeature> list) {
-        FeatureDelDialog delDialog = new FeatureDelDialog(mContext,R.style.Dialog,list,this,selMap);
+        FeatureDelDialog delDialog = new FeatureDelDialog(mContext, R.style.Dialog, list, this, selMap);
         BussUtil.setDialogParams(mContext, delDialog, 0.55, 0.55);
     }
 
@@ -3212,7 +3382,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     public GeodatabaseFeature getSelParams(List<GeodatabaseFeature> list, int position) {
 
         GeodatabaseFeature feature = list.get(position);
-        myLayer = BaseUtil.getIntance(mContext).getFeatureInLayer(feature,layerNameList,selMap);
+        myLayer = BaseUtil.getIntance(mContext).getFeatureInLayer(feature, layerNameList, selMap);
         if (myLayer == null) {
             ToastUtil.setToast(mContext, "数据图层已经移除，请重新选择小班");
             return null;
@@ -3291,7 +3461,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
      * 展示图斑面积总和
      */
     private void showResultMj(List<GeodatabaseFeature> list) {
-        ResultAreaDialog areaDialog = new ResultAreaDialog(mContext,R.style.Dialog,list);
+        ResultAreaDialog areaDialog = new ResultAreaDialog(mContext, R.style.Dialog, list);
         BussUtil.setDialogParams(mContext, areaDialog, 0.4, 0.4);
     }
 
@@ -3299,7 +3469,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
      * 显示图层渲染设置页面
      */
     public void showLayerRenderSystem() {
-        RenderSetDialog setDialog = new RenderSetDialog(mContext,R.style.Dialog,this,layerControlPresenter);
+        RenderSetDialog setDialog = new RenderSetDialog(mContext, R.style.Dialog, this, layerControlPresenter);
         BussUtil.setDialogParams(mContext, setDialog, 0.55, 0.55);
     }
 
@@ -3313,15 +3483,15 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         }
 
         /* 获取 数据所属 数据 */
-        if(sjssLlist.size() == 0){
+        if (sjssLlist.size() == 0) {
             new MyAsyncTask().execute("sjss");
         }
-		/* 获取 行政区域 数据 */
-		if(xzqyLlist.size() == 0){
+        /* 获取 行政区域 数据 */
+        if (xzqyLlist.size() == 0) {
             new MyAsyncTask().execute("xzqy");
         }
-		/* 获取 基地性质 数据 */
-		if(jdxzLlist.size() == 0){
+        /* 获取 基地性质 数据 */
+        if (jdxzLlist.size() == 0) {
             new MyAsyncTask().execute("jdxz");
         }
 
@@ -3389,17 +3559,17 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                 graphicsLayer.addGraphic(graphic);
 
                 //建立一个1000米缓冲区
-                if(spatialReference.equals(SpatialReference.create(2343))){
+                if (spatialReference.equals(SpatialReference.create(2343))) {
                     Polygon polygon = GeometryEngine.buffer(feature.getGeometry(), spatialReference, 400, null);
                     mapView.setExtent(polygon);
-                }else{
+                } else {
                     mapView.setExtent(feature.getGeometry());
                 }
             }
         });
 
 
-        ImageView close = (ImageView) xbqdInclude.findViewById(R.id.share_xbqd_close);
+        ImageView close = xbqdInclude.findViewById(R.id.share_xbqd_close);
         close.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -3424,7 +3594,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         calloutP.showCallout(map, mappoint, 0, 0);
         calloutPopupWindows.add(calloutP);
 
-        ImageView close = (ImageView) view.findViewById(R.id.calloutpopuwindow_close);
+        ImageView close = view.findViewById(R.id.calloutpopuwindow_close);
         close.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -3500,6 +3670,11 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     @Override
     public List<Row> getSysLayerData() {
         return proData;
+    }
+
+    @Override
+    public void setSysLayerData(List<Row> proData) {
+        this.proData = proData;
     }
 
     @Override
@@ -3598,13 +3773,59 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     }
 
     @Override
+    public BaseActivity getActivity() {
+        return this;
+    }
+
+    @Override
+    public String getCurAddStr() {
+        return addr;
+    }
+
+    @Override
+    public Point getGpsPoint() {
+        return gpsPoint;
+    }
+
+    @Override
+    public void showRecord() {
+        startRecordView.setVisibility(View.GONE);
+        suspendRecordView.setVisibility(View.VISIBLE);
+        lableRecordView.setVisibility(View.VISIBLE);
+        endRecordView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideRecord() {
+        startRecordView.setVisibility(View.VISIBLE);
+        suspendRecordView.setVisibility(View.GONE);
+        lableRecordView.setVisibility(View.GONE);
+        endRecordView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void suspendRecord() {
+        String txt = suspendRecordView.getText().toString().trim();
+        if (txt.equals("暂停")) {
+            suspendRecordView.setText("继续");
+        } else {
+            suspendRecordView.setText("暂停");
+        }
+    }
+
+    @Override
     public void addImageLayer(String path) {
         imgTiledLayer = new ArcGISLocalTiledLayer(path);
         mapView.addLayer(imgTiledLayer);
     }
 
     @Override
-    public void setLayerOnItemClickListener(AdapterView<?> parent, View view, int position, long id,ActionMode mode,List<MyLayer> layerList,LayerSelectDialog dialog) {
+    public ArrayList<String> getPicList() {
+        return picList;
+    }
+
+    @Override
+    public void setLayerOnItemClickListener(AdapterView<?> parent, View view, int position, long id, ActionMode mode, List<MyLayer> layerList, LayerSelectDialog dialog) {
         myLayer = layerList.get(position);
         layerType = myLayer.getLayer().getGeometryType();
         String layername = myLayer.getLname();
@@ -3618,7 +3839,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         selectMethed(mode);
     }
 
-    private void selectMethed(ActionMode mode){
+    private void selectMethed(ActionMode mode) {
         if (mode == ActionMode.MODE_XBQD) {
             //小班清单
             ProgressDialogUtil.startProgressDialog(mContext);
@@ -3626,13 +3847,13 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         } else if (mode == ActionMode.MODE_TONGJI) {
             showDialogKjtj();
         } else if (mode == ActionMode.MODE_XBSEARCHZDY) {
-					/* 小班自定义查询 */
+            /* 小班自定义查询 */
             xbqueryPresenter.showSearchXiaoZDY(xbSearchZdyInclude);
         } else if (mode == ActionMode.MODE_XBSEARCHJD) {
-					/* 小班简单查询 */
+            /* 小班简单查询 */
             xbqueryPresenter.showSearchXBjd(xbSearchJdInclude);
         } else if (mode == ActionMode.MODE_EDIT_ADD) {
-					/* 新增图斑 */
+            /* 新增图斑 */
             if (layerType.equals(Geometry.Type.POINT)) {
                 drawType = POINT;
                 if (currentPoint != null && currentPoint.isValid()) {
@@ -3689,11 +3910,11 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                     addFeatureToOtherLayer(feature);
                 }
             }
-        }else if(mode == ActionMode.MODE_ADD_LABLE){
+        } else if (mode == ActionMode.MODE_ADD_LABLE) {
             //显示标注view
             actionMode = mode;
             layerLableInclude.setVisibility(View.VISIBLE);
-            lablePresenter.showLayerAials(layerLableInclude,myLayer);
+            lablePresenter.showLayerAials(layerLableInclude, myLayer);
         }
     }
 
@@ -3701,33 +3922,33 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     int lineGraphicID = -1;
     Polyline travelLine = null;
     boolean isTravelfirst = true;
-    public void showTravelLine(Point point){
+
+    public void showTravelLine(Point point) {
         boolean flag = gpsCollectPresenter.isTravel();
-        if(flag){
-            if(travelLine == null){
+        if (flag) {
+            if (travelLine == null) {
                 travelLine = new Polyline();
             }
-            if(isTravelfirst){
+            if (isTravelfirst) {
                 travelLine.startPath(point);
                 isTravelfirst = false;
-            }else{
+            } else {
                 travelLine.lineTo(point);
             }
 
-            if(lineGraphicID == -1){
-                SimpleLineSymbol lineSymbol = new SimpleLineSymbol(Color.RED,4);
-                Graphic graphic = new Graphic(travelLine,lineSymbol);
+            if (lineGraphicID == -1) {
+                SimpleLineSymbol lineSymbol = new SimpleLineSymbol(Color.RED, 4);
+                Graphic graphic = new Graphic(travelLine, lineSymbol);
                 lineGraphicID = graphicsLayer.addGraphic(graphic);
-            }else{
-                graphicsLayer.updateGraphic(lineGraphicID,travelLine);
+            } else {
+                graphicsLayer.updateGraphic(lineGraphicID, travelLine);
             }
 
-        }else{
+        } else {
             travelLine = null;
             isTravelfirst = true;
         }
     }
-
 
 
 }

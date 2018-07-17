@@ -1,6 +1,7 @@
 package com.otitan.sclyyq.color;
 
 import com.otitan.sclyyq.R;
+import com.titan.baselibrary.color.ColorPickerView;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -50,7 +51,7 @@ public class SansumColorSelecter extends RelativeLayout implements
 			mAllColor[i].setTag(i);
 			mAllColor[i].setOnTouchListener(this);
 		}
-		mColorPView = (ColorPickerView) findViewById(R.id.color_picker);
+		mColorPView = findViewById(R.id.color_picker);
 		// mColorPView.setColorSelecter(this);
 	}
 

@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/blue"
+                android:gravity="center|left"
+                android:paddingLeft="5dp"
+                android:text="现场信息上报"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/xxsb_close"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:background="@drawable/background_view_rounded_image"
+                android:padding="@dimen/padding_7"
+                app:srcCompat="@drawable/ic_close_black_24dp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_3"
+            android:background="@drawable/bg_linearlayout"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="@dimen/width_90"
+                android:padding="@dimen/padding_7"
+                android:text="所属分类："
+                android:textColor="@color/color_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red" />
+
+            <Spinner
+                android:id="@+id/sjlx_spinner"
+                style="@style/spinner_style_m"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog" />
+        </LinearLayout>
+
+        <!--管理设施类-->
+        <LinearLayout
+            android:id="@+id/glss_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_3"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_5"
+                    android:text="管理设施类"
+                    android:textColor="@color/blue" />
+
+                <TextView
+                    android:id="@+id/glss_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:paddingLeft="@dimen/padding_5"
+                    android:text=""
+                    android:textColor="@color/blue" />
+
+            </LinearLayout>
+
+            <com.titan.baselibrary.customview.MyRadioGroup
+                android:id="@+id/group_glss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_3"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_3">
+
+                    <RadioButton
+                        android:id="@+id/glss_glz"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="管理站"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/glss_shaoka"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="哨卡"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/glss_lwt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="瞭望塔"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/glss_xjzx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="宣教中心"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_3">
+
+                    <RadioButton
+                        android:id="@+id/glss_jiebei"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="界碑"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/glss_jiezhuang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="界桩"
+                        android:textColor="@color/white" />
+
+                    <EditText
+                        android:id="@+id/glss_qita"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="5"
+                        android:background="@drawable/bg_edittext"
+                        android:hint="点击输入其它"
+                        android:paddingLeft="@dimen/padding_3"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </com.titan.baselibrary.customview.MyRadioGroup>
+
+        </LinearLayout>
+        <!--野生动植物类-->
+        <LinearLayout
+            android:id="@+id/ysdzw_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_3"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_5"
+                    android:text="野生动植物类"
+                    android:textColor="@color/blue" />
+
+                <TextView
+                    android:id="@+id/ysdzw_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:paddingLeft="@dimen/padding_5"
+                    android:text=""
+                    android:textColor="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_3">
+
+                <EditText
+                    android:id="@+id/ysdzw_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/padding_5"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_edittext"
+                    android:hint="输入动植物名称"
+                    android:padding="@dimen/padding_3"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/ysdzw_shuliang"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_5"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_edittext"
+                    android:hint="点击输入数量单位"
+                    android:padding="@dimen/padding_3"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <!--生境现状-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_3"
+                android:background="@drawable/bg_linearlayout"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_5"
+                    android:text="生境现状"
+                    android:textColor="@color/blue" />
+
+                <TextView
+                    android:id="@+id/sjxz_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:paddingLeft="@dimen/padding_5"
+                    android:text=""
+                    android:textColor="@color/blue" />
+            </LinearLayout>
+
+            <com.titan.baselibrary.customview.MyRadioGroup
+                android:id="@+id/group_sjxz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_3"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_3"
+                    android:background="@drawable/bg_linearlayout"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/sjxz_senlin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="森林"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/sjxz_guancong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="灌丛"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/sjxz_caodi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="草地"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/sjxz_nongtian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="农田"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_3"
+                    android:weightSum="4">
+
+                    <RadioButton
+                        android:id="@+id/sjxz_shuiyu"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="水域"
+                        android:textColor="@color/white" />
+
+                    <EditText
+                        android:id="@+id/sjxz_qita"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@drawable/bg_edittext"
+                        android:hint="点击输入其它"
+                        android:padding="@dimen/padding_3"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </com.titan.baselibrary.customview.MyRadioGroup>
+        </LinearLayout>
+        <!--人类活动-->
+        <LinearLayout
+            android:id="@+id/rlhd_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_3"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_3"
+                android:background="@drawable/bg_linearlayout"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_5"
+                    android:text="人类活动类"
+                    android:textColor="@color/blue" />
+
+                <TextView
+                    android:id="@+id/rlhd_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:paddingLeft="@dimen/padding_5"
+                    android:text=""
+                    android:textColor="@color/blue" />
+            </LinearLayout>
+
+            <com.titan.baselibrary.customview.MyRadioGroup
+                android:id="@+id/group_rlhd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_3"
+                    android:background="@drawable/bg_linearlayout"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rlhd_nykfsc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="能源开发生产"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/rlhd_slgc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="水利工程"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/rlhd_cscs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="采石彩砂"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_3"
+                    android:background="@drawable/bg_linearlayout"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rlhd_yzc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="养殖场(区)"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/rlhd_lyss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="旅游设施"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/rlhd_nyczh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="农业垦殖"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_3"
+                    android:background="@drawable/bg_linearlayout"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <RadioButton
+                        android:id="@+id/rlhd_jmd"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/radiobutton_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:text="居民点"
+                        android:textColor="@color/white" />
+
+                    <EditText
+                        android:id="@+id/rlhd_qita"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/bg_edittext"
+                        android:gravity="center"
+                        android:hint="点击输入其它"
+                        android:textColor="@color/balck" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_3"
+                    android:background="@drawable/bg_linearlayout"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/padding_3"
+                        android:layout_marginRight="@dimen/padding_3"
+                        android:background="@color/white"
+                        android:padding="@dimen/padding_7"
+                        android:text="备注"
+                        android:textColor="@color/blue" />
+
+                    <EditText
+                        android:id="@+id/rlhd_beizhu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_edittext"
+                        android:gravity="center"
+                        android:minHeight="70dp"
+                        android:textColor="@color/balck" />
+
+                </LinearLayout>
+            </com.titan.baselibrary.customview.MyRadioGroup>
+        </LinearLayout>
+        <!--其他类-->
+        <LinearLayout
+            android:id="@+id/qita_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_3"
+            android:background="@drawable/bg_linearlayout"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/padding_5"
+                android:text="其它类"
+                android:textColor="@color/blue" />
+
+            <EditText
+                android:id="@+id/qita_value"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_3"
+                android:background="@drawable/bg_edittext"
+                android:gravity="center"
+                android:hint="点击输入名称"
+                android:minWidth="200dp"
+                android:padding="@dimen/padding_3"
+                android:textColor="@color/balck" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="@dimen/width_90"
+                android:padding="@dimen/padding_7"
+                android:paddingLeft="@dimen/padding_3"
+                android:text="事件名称："
+                android:textColor="@color/color_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red" />
+
+            <EditText
+                android:id="@+id/txt_sjmc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_edittxt"
+                android:gravity="center|left"
+                android:paddingLeft="@dimen/padding_3"
+                android:textCursorDrawable="@drawable/color_cursor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="@dimen/width_90"
+                android:padding="@dimen/padding_7"
+                android:text="事件描述："
+                android:textColor="@color/color_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red" />
+
+            <EditText
+                android:id="@+id/txt_sjms"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_edittxt"
+                android:gravity="center|left"
+                android:paddingLeft="@dimen/padding_3"
+                android:textCursorDrawable="@drawable/color_cursor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="@dimen/width_90"
+                android:padding="@dimen/padding_7"
+                android:text="经度："
+                android:textColor="@color/color_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red" />
+
+            <TextView
+                android:id="@+id/txt_jd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_edittxt"
+                android:gravity="center|left"
+                android:paddingLeft="@dimen/padding_3"
+                android:textCursorDrawable="@drawable/color_cursor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="@dimen/width_90"
+                android:padding="@dimen/padding_7"
+                android:text="纬度："
+                android:textColor="@color/color_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red" />
+
+            <TextView
+                android:id="@+id/txt_wd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_edittxt"
+                android:gravity="center|left"
+                android:paddingLeft="@dimen/padding_3"
+                android:textCursorDrawable="@drawable/color_cursor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_linearlayout"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="@dimen/width_90"
+                android:padding="@dimen/padding_7"
+                android:text="联系电话："
+                android:textColor="@color/color_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red" />
+
+            <EditText
+                android:id="@+id/txt_tel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_edittxt"
+                android:gravity="center|left"
+                android:paddingLeft="@dimen/padding_3"
+                android:textCursorDrawable="@drawable/color_cursor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:visibility="invisible" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="@dimen/width_90"
+                android:padding="@dimen/padding_7"
+                android:text="详细地址:"
+                android:textColor="@color/color_black" />
+
+            <EditText
+                android:id="@+id/txt_addr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_edittxt"
+                android:gravity="center|left"
+                android:paddingLeft="@dimen/padding_3"
+                android:textCursorDrawable="@drawable/color_cursor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="*"
+                android:textColor="@color/red"
+                android:visibility="invisible" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="@dimen/width_90"
+                android:padding="@dimen/padding_7"
+                android:text="备注："
+                android:textColor="@color/color_black" />
+
+            <EditText
+                android:id="@+id/txt_beizhu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_edittxt"
+                android:gravity="center|left"
+                android:paddingLeft="@dimen/padding_3"
+                android:textCursorDrawable="@drawable/color_cursor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:orientation="vertical"
+            android:padding="2dp">
+
+            <TextView
+                android:id="@+id/xczp_pic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableRight="@drawable/log_pic_logo"
+                android:gravity="center|left"
+                android:minWidth="@dimen/width_90"
+                android:padding="@dimen/padding_7"
+                android:text="现场照片"
+                android:textColor="@color/color_black" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/txt_xczp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:orientation="vertical"
+            android:padding="2dp">
+
+            <TextView
+                android:id="@+id/xcyp_pic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_linearlayout"
+                android:gravity="center|left"
+                android:minWidth="@dimen/width_90"
+                android:padding="@dimen/padding_7"
+                android:text="现场音频"
+                android:textColor="@color/color_black" />
+
+            <TextView
+                android:id="@+id/txt_xcyp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:orientation="vertical"
+            android:padding="2dp">
+
+            <TextView
+                android:id="@+id/xcsp_pic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_linearlayout"
+                android:gravity="center|left"
+                android:minWidth="@dimen/width_90"
+                android:padding="@dimen/padding_7"
+                android:text="现场视频"
+                android:textColor="@color/color_black" />
+
+            <VideoView
+                android:id="@+id/txt_xcsp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/width_100"
+                android:background="@color/white" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linearlayout"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/xxsb_save"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/background_view_rounded_blue"
+                android:gravity="center"
+                android:minWidth="100dp"
+                android:padding="5dp"
+                android:text="在线上报"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/xxsb_save_local"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/background_view_rounded_blue"
+                android:gravity="center"
+                android:minWidth="100dp"
+                android:padding="5dp"
+                android:text="本地暂存"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

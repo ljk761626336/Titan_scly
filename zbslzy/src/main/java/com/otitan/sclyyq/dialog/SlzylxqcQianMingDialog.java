@@ -1,21 +1,5 @@
 package com.otitan.sclyyq.dialog;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import com.otitan.sclyyq.MyApplication;
-import com.otitan.sclyyq.util.ResourcesManager;
-import com.otitan.sclyyq.BaseActivity;
-import com.otitan.sclyyq.R;
-import com.otitan.sclyyq.color.ColorPickerView;
-import com.otitan.sclyyq.color.SansumColorSelecter;
-import com.otitan.sclyyq.color.ColorPickerView.OnColorChangedListener;
-import com.otitan.sclyyq.entity.ScreenTool.Screen;
-import com.otitan.sclyyq.util.BussUtil;
-import com.otitan.sclyyq.util.ToastUtil;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -23,11 +7,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -42,6 +26,21 @@ import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
+import com.otitan.sclyyq.BaseActivity;
+import com.otitan.sclyyq.MyApplication;
+import com.otitan.sclyyq.R;
+import com.otitan.sclyyq.color.SansumColorSelecter;
+import com.otitan.sclyyq.entity.ScreenTool.Screen;
+import com.otitan.sclyyq.util.BussUtil;
+import com.otitan.sclyyq.util.ResourcesManager;
+import com.otitan.sclyyq.util.ToastUtil;
+import com.titan.baselibrary.color.ColorPickerView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * 签名dialog
@@ -319,7 +318,7 @@ public class SlzylxqcQianMingDialog extends Dialog {
 			ColorPickerView colorPickerView = (ColorPickerView) dialog
 					.findViewById(R.id.color_picker);
 			colorPickerView
-					.setOnColorChangeListenrer(new OnColorChangedListener()
+					.setOnColorChangeListenrer(new ColorPickerView.OnColorChangedListener()
 					{
 
 						@Override

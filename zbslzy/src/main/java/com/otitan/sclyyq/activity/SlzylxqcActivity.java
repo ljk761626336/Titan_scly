@@ -30,6 +30,15 @@ import com.otitan.sclyyq.util.ToastUtil;
  * 连续清查页面
  */
 public class SlzylxqcActivity extends BaseActivity {
+	@Override
+	public void setReportDialog(Dialog dialog) {
+
+	}
+
+	@Override
+	public Dialog getReportDialog() {
+		return null;
+	}
 
 	View parentView;
 	private static final int TAKE_IMAGE = 0x000004;

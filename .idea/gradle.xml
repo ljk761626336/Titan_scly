@@ -9,10 +9,12 @@
           <set>
             <option value="$PROJECT_DIR$/../LibraryManager" />
             <option value="$PROJECT_DIR$/../LibraryManager/baselibrary" />
+            <option value="$PROJECT_DIR$/../LibraryManager/medialibrary" />
             <option value="$PROJECT_DIR$/../LibraryManager/photopicker" />
             <option value="$PROJECT_DIR$/../LibraryManager/proj4android" />
             <option value="$PROJECT_DIR$/../LibraryManager/versionupdata" />
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/zbslzy" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

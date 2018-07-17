@@ -134,4 +134,13 @@ public class ErDiaoActivity extends BaseActivity {
 		BussUtil.setDialogParam(mContext, dialog, 0.55, 0.55,0.55, 0.55);
 	}
 
+	@Override
+	public void setReportDialog(Dialog dialog) {
+
+	}
+
+	@Override
+	public Dialog getReportDialog() {
+		return null;
+	}
 }

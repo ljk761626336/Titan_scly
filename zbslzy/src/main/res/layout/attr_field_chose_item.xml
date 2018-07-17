@@ -9,9 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:padding="5dp"
-        android:text="字段名称"
-        android:textSize="20sp" />
+        style="@style/custom_checkbox_style"/>
 
     <ImageView
         android:id="@+id/field_query"

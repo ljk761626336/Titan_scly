@@ -1,5 +1,6 @@
 package com.otitan.sclyyq.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -33,5 +34,15 @@ public class LdActivity extends BaseActivity {
     @Override
     public View getParentView() {
         return parentView;
+    }
+
+    @Override
+    public void setReportDialog(Dialog dialog) {
+
+    }
+
+    @Override
+    public Dialog getReportDialog() {
+        return null;
     }
 }

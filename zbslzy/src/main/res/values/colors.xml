@@ -130,4 +130,6 @@
     <color name="light_blue_bg">#165f9e</color>
     <color name="light_blue">#1e80d2</color>
     <color name="nocolor">#000</color>
+    <color name="bg_green">#21ad38</color>
+
 </resources>

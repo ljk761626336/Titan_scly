@@ -5,6 +5,7 @@ import com.otitan.sclyyq.R;
 import com.otitan.sclyyq.util.BussUtil;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,15 @@ import android.widget.ImageView;
  * 湿地资源页面
  */
 public class SdzyActivity extends BaseActivity {
+	@Override
+	public void setReportDialog(Dialog dialog) {
 
+	}
+
+	@Override
+	public Dialog getReportDialog() {
+		return null;
+	}
 	View parentview;
 	Context mContext;
 	@SuppressLint("NewApi")

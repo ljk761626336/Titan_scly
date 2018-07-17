@@ -20,6 +20,7 @@ import com.otitan.sclyyq.entity.ScreenTool.Screen;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -114,12 +115,12 @@ public class ArcGISUtils {
 
 	/**drool 面的结构图*/
 	public static void DroolMian(Context mContext, Screen screen,GraphicsLayer graphicsLayer, Point point, Polygon polygon) {
-		int size = 0;
+		/*int size = 0;
 		if (screen.getWidthPixels() > 1280) {
-			size = 12;
+			size = 8;
 		} else {
 			size = 18;
-		}
+		}*/
 		Drawable color = mContext.getResources().getDrawable(R.drawable.point_pic);
 		if (polygon.getPointCount() >= 3) {
 			DecimalFormat decimalFormat = new DecimalFormat(".000");
@@ -132,13 +133,13 @@ public class ArcGISUtils {
 				Polygon line = GeometryEngineUtil.getSpatialPolygon2343(polygon);
 				str = " "+decimalFormat.format(Math.abs(line.calculateArea2D())).trim() + "平方米";
 			}
-			PictureMarkerSymbol pic = SymbolUtil.TextPicSymobelArea(mContext,str, Color.BLUE, size, SymbolUtil.MODE.BOTTOM);
+			PictureMarkerSymbol pic = SymbolUtil.TextPicSymobelArea(mContext,str, Color.BLUE, getFontSize(), SymbolUtil.MODE.BOTTOM);
 			Graphic graphic = new Graphic(point, pic);
 			graphicsLayer.addGraphic(graphic);
 		} else {
 			if (polygon.getPathCount() == 0) {
 				PictureMarkerSymbol pictureMarkerSymbol = SymbolUtil
-						.TextPicSymobel(mContext, "起点", Color.BLUE, size,SymbolUtil.MODE.BOTTOM);
+						.TextPicSymobel(mContext, "起点", Color.BLUE, getFontSize(),SymbolUtil.MODE.BOTTOM);
 				Graphic gp = new Graphic(point, pictureMarkerSymbol);
 				graphicsLayer.addGraphic(gp);
 			}
@@ -151,17 +152,17 @@ public class ArcGISUtils {
 	/**drool 面的结构图*/
 	public static void DroolMian(Context mContext, Screen screen,
 								 GraphicsLayer graphicsLayerLocation, Polygon polygon, double area) {
-		int size = 0;
+		/*int size = 0;
 		if (screen.getWidthPixels() > 1280) {
-			size = 12;
+			size = 8;
 		} else {
 			size = 18;
-		}
+		}*/
 
 		DecimalFormat decimalFormat = new DecimalFormat(".000");
 		String str = " "+decimalFormat.format(area).trim() + "平方米";
 		PictureMarkerSymbol pic = SymbolUtil.TextPicSymobelArea(mContext, str,
-				Color.BLUE, size, SymbolUtil.MODE.BOTTOM);
+				Color.BLUE, getFontSize(), SymbolUtil.MODE.BOTTOM);
 		Envelope envelope = new Envelope();
 		polygon.queryEnvelope(envelope);
 		Point point = envelope.getCenter();
@@ -174,19 +175,19 @@ public class ArcGISUtils {
 		DecimalFormat decimalFormat = new DecimalFormat(".000");
 		PictureMarkerSymbol pic;
 		Drawable color = mContext.getResources().getDrawable(R.drawable.point_pic);
-		int size = 0;
+		/*int size = 0;
 		if (screen.getWidthPixels() > 1280) {
-			size = 14;
+			size = 8;
 		} else {
 			size = 18;
-		}
+		}*/
 
 		PictureMarkerSymbol markerSymbol = new PictureMarkerSymbol(mContext,color);
 		Graphic gp = new Graphic(point, markerSymbol);
 		graphicsLayer.addGraphic(gp);
 
 		if (polyline.getPointCount() == 0) {
-			pic = SymbolUtil.TextPicSymobel(mContext, "起点", Color.BLUE, size,
+			pic = SymbolUtil.TextPicSymobel(mContext, "起点", Color.BLUE, getFontSize(),
 					SymbolUtil.MODE.BOTTOM);
 		} else {
 			int count = polyline.getPointCount();
@@ -207,11 +208,17 @@ public class ArcGISUtils {
 				Polyline polyline1 = GeometryEngineUtil.getSpatialLine2343(line);
 				str ="\n"+ decimalFormat.format(Math.abs(polyline1.calculateLength2D())).trim() + "米";
 			}
-			pic = SymbolUtil.TextPicSymobel(mContext, str, Color.BLUE, size,SymbolUtil.MODE.BOTTOM);
+			pic = SymbolUtil.TextPicSymobel(mContext, str, Color.BLUE, getFontSize(),SymbolUtil.MODE.BOTTOM);
 			//pic = new PictureMarkerSymbol(color);
 		}
 		Graphic graphic = new Graphic(point, pic);
 		graphicsLayer.addGraphic(graphic);
+
+	}
+
+	public static float getFontSize() {
+		Paint sPaint = new Paint();
+		return sPaint.getTextSize();
 
 	}
 

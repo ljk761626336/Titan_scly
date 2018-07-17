@@ -40,14 +40,14 @@
         android:layout_margin="3dp"
         android:background="@android:color/white"
         android:gravity="left"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="3dp" >
+            android:padding="3dp">
 
             <CheckBox
                 android:id="@+id/cb_sl"
@@ -64,8 +64,7 @@
                 android:gravity="left|center"
                 android:paddingLeft="10dp"
                 android:text="基础图"
-                android:textColor="@color/balck"
-                android:textSize="15sp" />
+                android:textColor="@color/balck" />
 
             <TextView
                 android:id="@+id/tile_extent"
@@ -74,10 +73,9 @@
                 android:layout_gravity="right|center"
                 android:background="@drawable/background_view_rounded_image"
                 android:contentDescription="@null"
-                android:padding="7dp"
-                android:textColor="@color/blue"
-                android:text="透明度设置"
-                android:textSize="@dimen/larger_txtsize20" />
+                android:padding="5dp"
+                android:text="透明度"
+                android:textColor="@color/blue" />
         </LinearLayout>
 
         <View
@@ -90,7 +88,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="3dp" >
+            android:padding="3dp">
 
             <CheckBox
                 android:id="@+id/cb_ys"
@@ -106,8 +104,7 @@
                 android:gravity="left|center"
                 android:paddingLeft="10dp"
                 android:text="影像图"
-                android:textColor="@color/balck"
-                android:textSize="15sp" />
+                android:textColor="@color/balck" />
 
             <TextView
                 android:id="@+id/image_system"
@@ -116,10 +113,9 @@
                 android:layout_gravity="right|center"
                 android:background="@drawable/background_view_rounded_image"
                 android:contentDescription="@null"
-                android:padding="7dp"
-                android:text="透明度设置"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/larger_txtsize20" />
+                android:padding="5dp"
+                android:text="透明度"
+                android:textColor="@color/blue" />
         </LinearLayout>
 
         <View
@@ -132,7 +128,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="3dp" >
+            android:padding="3dp"
+            android:visibility="gone">
 
             <CheckBox
                 android:id="@+id/cb_dxt"
@@ -148,8 +145,7 @@
                 android:gravity="left|center"
                 android:paddingLeft="10dp"
                 android:text="地形图"
-                android:textColor="@color/balck"
-                android:textSize="15sp" />
+                android:textColor="@color/balck" />
 
             <TextView
                 android:id="@+id/dxt_system"
@@ -158,10 +154,9 @@
                 android:layout_gravity="right|center"
                 android:background="@drawable/background_view_rounded_image"
                 android:contentDescription="@null"
-                android:padding="7dp"
-                android:text="透明度设置"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/larger_txtsize20" />
+                android:padding="5dp"
+                android:text="透明度"
+                android:textColor="@color/blue" />
         </LinearLayout>
 
         <View

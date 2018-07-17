@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_base"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.otitan.sclyyq.BaseActivity">
+
+    <com.esri.android.map.MapView
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/white" />
+    <include
+        android:id="@+id/trajectoryView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="130dp"
+        layout="@layout/trajectory_record"
+        />
+    <!--放大缩小工具-->
+    <com.otitan.sclyyq.util.ZoomControlView
+        android:id="@+id/zoomcontrolview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="60dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone" />
+
+    <!--导航-->
+    <include
+        android:id="@+id/navigation_include"
+        layout="@layout/navigation"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="90dp"
+        android:visibility="gone" />
+    <!--顶部top-->
+    <include
+        android:id="@+id/topbar_include"
+        layout="@layout/share_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top" />
+    <!--地图左侧工具-->
+    <include
+        android:id="@+id/share_maptools_include"
+        layout="@layout/share_maptools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="150dp"
+        android:layout_marginLeft="20dp" />
+    <!--gps采集工具-->
+    <include
+        android:id="@+id/gpscaiji_include"
+        layout="@layout/share_gps_caiji"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="150dp"
+        android:visibility="gone" />
+    <!--新增小班点绘-->
+    <include
+        android:id="@+id/add_feature_point"
+        layout="@layout/share_add_model_point"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+    <!--比例尺-->
+    <TextView
+        android:id="@+id/mapScaleValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="240dp"
+        android:layout_marginLeft="100dp"
+        android:background="@color/transparent"
+        android:textColor="@color/red" />
+
+    <!--当前坐标值-->
+    <TextView
+        android:id="@+id/mylocationValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="200dp"
+        android:layout_marginLeft="100dp"
+        android:background="@color/transparent"
+        android:textColor="@color/red" />
+    <!--图层控制-->
+    <include
+        android:id="@+id/tckz_include"
+        layout="@layout/share_tckz"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="80dp"
+        android:visibility="gone" />
+
+    <!--图层属性标注-->
+    <include
+        android:id="@+id/shuxinglable_include"
+        layout="@layout/attr_field_chose"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="80dp"
+        android:visibility="gone" />
+
+    <!--小班清单-->
+    <include
+        android:id="@+id/dialog_xbqd_include"
+        layout="@layout/dialog_xbdata_list"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="80dp"
+        android:visibility="gone" />
+    <!--小地名搜索-->
+    <include
+        android:id="@+id/xdmsearch_include"
+        layout="@layout/dialog_xdm_search"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="80dp"
+        android:visibility="gone" />
+
+    <!--其他机器轨迹查询-->
+    <include
+        android:id="@+id/gjserchother_include"
+        layout="@layout/view_guijiother"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="80dp"
+        android:visibility="gone" />
+
+    <!--影像图层控制-->
+    <include
+        android:id="@+id/imgtuceng_include"
+        layout="@layout/img_tuceng"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="240dp"
+        android:layout_marginTop="70dp"
+        android:visibility="gone" />
+    <!--本机轨迹查询-->
+    <include
+        android:id="@+id/guijisearch_include"
+        layout="@layout/view_guiji_search"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="100dp"
+        android:visibility="gone" />
+    <!--搜索出的小地名导航-->
+    <include
+        android:id="@+id/address_navigation_include"
+        layout="@layout/popup_address_navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone" />
+    <!--小班编辑工具栏-->
+    <include
+        android:id="@+id/xbbj_include"
+        layout="@layout/xbbj_editor_tool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="100dp"
+        android:visibility="visible" />
+
+    <!--自定义小班查询-->
+    <include
+        android:id="@+id/xbsearchzdy_include"
+        layout="@layout/share_search_xb_zdy"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:layout_marginTop="80dp"
+        android:visibility="gone" />
+
+    <!--小班简单查询-->
+    <include
+        android:id="@+id/xbsearchjd_include"
+        layout="@layout/share_search_xb_jd"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="80dp"
+        android:visibility="gone" />
+
+</FrameLayout>

@@ -1,6 +1,9 @@
 package com.otitan.sclyyq.service;
 
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -11,9 +14,22 @@ import rx.Observable;
 
 public interface RetrofitService {
 
-
-    @GET("addMacAddress")
+    //设备号录入
+    @GET("AddMacAddress")
     Observable<String> addMacAddress(@Query("sbh") String sbh, @Query("xlh") String xlh);
+
+    /*传坐标*/
+    @GET("UPLonLat")
+    Observable<String> uPLonLat(@Query("SBH") String SBH,@Query("LON") String LON,@Query("LAT") String LAT,@Query("time") String time);
+
+    /*轨迹上报*/
+    @GET("UPPatrolLine")
+    Observable<String> uPPatrolLine(@Query("jsonText") String json);
+
+    /*上传现场信息*/
+    @FormUrlEncoded
+    @POST("UPPatrolEvent")
+    Observable<String> upRequisitionInfo(@Field("jsonText") String jsonText);
 
     @GET("addMoblieSysInfo")
     Observable<String> addMoblieSysInfo(@Query("sysname") String sysname, @Query("tel") String tel,@Query("dw") String dw, @Query("retime") String retime,@Query("sbmc") String sbmc, @Query("sbh") String sbh,@Query("bz") String bz);
@@ -38,8 +54,5 @@ public interface RetrofitService {
     @GET("addQyInfo")
     Observable<String> addQyData(@Query("json") String json);
 
-    /*传坐标*/
-    @GET("uPLonLat")
-    Observable<String> uPLonLat(@Query("SBH") String SBH,@Query("LON") String LON,@Query("LAT") String LAT,@Query("time") String time);
 
 }

@@ -56,7 +56,15 @@ import java.util.List;
  * 生物多样性页面
  */
 public class SwdyxActivity extends BaseActivity {
+    @Override
+    public void setReportDialog(Dialog dialog) {
 
+    }
+
+    @Override
+    public Dialog getReportDialog() {
+        return null;
+    }
     SwdyxActivity mContext;
     View parentview, bottomview;
     TextView xcddc;

@@ -1,5 +1,6 @@
 package com.otitan.sclyyq.activity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -16,7 +17,15 @@ import com.titan.baselibrary.util.DialogParamsUtil;
  * 木材经营
  */
 public class McjyActivity extends BaseActivity implements View.OnClickListener{
+    @Override
+    public void setReportDialog(Dialog dialog) {
 
+    }
+
+    @Override
+    public Dialog getReportDialog() {
+        return null;
+    }
     private View parentView,bootemView;
 
     @Override

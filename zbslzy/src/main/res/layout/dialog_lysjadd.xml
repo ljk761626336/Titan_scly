@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/sjadd_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:navigationIcon="@drawable/ic_back"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="现场信息上报"
+        app:titleTextColor="@color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/sjadd_linear_style">
+
+                <TextView
+                    style="@style/sjadd_tv_style"
+                    android:drawableRight="@drawable/ic_star"
+                    android:text="事件名称：" />
+
+
+                <EditText
+                    android:id="@+id/sjadd_sjmc"
+                    style="@style/sjadd_ed_style" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/sjadd_linear_style">
+
+                <TextView
+                    style="@style/sjadd_tv_style"
+                    android:drawableRight="@drawable/ic_star"
+                    android:text="事件编号：" />
+
+
+                <EditText
+                    android:id="@+id/lysj_number"
+                    style="@style/sjadd_ed_style"
+                    android:enabled="false" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/sjadd_linear_style">
+
+                <TextView
+                    style="@style/sjadd_tv_style"
+                    android:drawableRight="@drawable/ic_star"
+                    android:text="上报时间：" />
+
+
+                <EditText
+                    android:id="@+id/lysj_time"
+                    style="@style/sjadd_ed_style"
+                    android:focusable="false" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/sjadd_linear_style">
+
+                <TextView
+                    style="@style/sjadd_tv_style"
+                    android:drawableRight="@drawable/ic_star"
+                    android:text="详细地址：" />
+
+
+                <EditText
+                    android:id="@+id/sjadd_address"
+                    style="@style/sjadd_ed_style" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/sjadd_linear_style">
+
+                <TextView
+                    style="@style/sjadd_tv_style"
+                    android:drawableRight="@drawable/ic_star"
+                    android:text="事件描述：" />
+
+
+                <EditText
+                    android:id="@+id/lysj_content"
+                    style="@style/sjadd_ed_style" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/sjadd_linear_style">
+
+                <TextView
+                    style="@style/sjadd_tv_style"
+                    android:drawableRight="@drawable/ic_star"
+                    android:text="上报人员：" />
+
+
+                <EditText
+                    android:id="@+id/lysj_people"
+                    style="@style/sjadd_ed_style" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/sjadd_linear_style">
+
+                <TextView
+                    style="@style/sjadd_tv_style"
+                    android:text="备注：" />
+
+
+                <EditText
+                    android:id="@+id/lysj_remark"
+                    style="@style/sjadd_ed_style" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/sjadd_xczp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:minWidth="100dp"
+                android:padding="5dp"
+                android:text="现场照片"
+                android:textColor="@color/color_black"
+                android:textSize="18sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/sjadd_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/lysj_save"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/background_view_rounded_blue"
+            android:gravity="center"
+            android:minWidth="100dp"
+            android:padding="10dp"
+            android:text="上报"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/lysj_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_view_rounded_blue"
+            android:gravity="center"
+            android:minWidth="100dp"
+            android:padding="10dp"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</LinearLayout>

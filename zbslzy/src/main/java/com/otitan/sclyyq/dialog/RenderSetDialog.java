@@ -176,7 +176,7 @@ public class RenderSetDialog extends Dialog {
         ImageView close = (ImageView) dialog.findViewById(R.id.tmdsettings_close);
         close.setOnClickListener(new CancleListener(dialog));
 
-        BussUtil.setDialogParams(mContext, dialog, 0.8, 0.8);
+        BussUtil.setDialogParams(mContext, dialog, 0.8, 0.5);
     }
 
     /**
@@ -312,7 +312,7 @@ public class RenderSetDialog extends Dialog {
             @Override
             public void onClick(View arg0) {
                 ColorDialog colorDialog = new ColorDialog(mContext,R.style.Dialog,0, tianchongse, seekBar, myLayer);
-                BussUtil.setDialogParam(mContext, colorDialog, 0.35, 0.35, 0.6, 0.6);
+                BussUtil.setDialogParam(mContext, colorDialog, 0.4, 0.6, 0.6, 0.6);
             }
         });
         //边界的设置
@@ -325,7 +325,7 @@ public class RenderSetDialog extends Dialog {
             @Override
             public void onClick(View arg0) {
                 ColorDialog colorDialog = new ColorDialog(mContext,R.style.Dialog,1, bianjiese, seekBar, myLayer);
-                BussUtil.setDialogParam(mContext, colorDialog, 0.35, 0.35, 0.6, 0.6);
+                BussUtil.setDialogParam(mContext, colorDialog, 0.4, 0.6, 0.6, 0.6);
             }
         });
 
@@ -370,7 +370,7 @@ public class RenderSetDialog extends Dialog {
         ImageView radioCancle = (ImageView) dialog.findViewById(R.id.tmdsettings_close1);
         radioCancle.setOnClickListener(new CancleListener(dialog));
 
-        BussUtil.setDialogParam(mContext, dialog, 0.75, 0.7, 0.5, 0.5);
+        BussUtil.setDialogParams(mContext, dialog, 0.4,0.5);
     }
 
     private void setLayerRenderer(int seekValue, EditText outlinewidth, MyLayer myLayer) {

@@ -54,7 +54,7 @@ public class GDBUtil {
     public static void downloadData(final BaseActivity activity,String activityType) {
         Log.i(TAG, "downloadData");
         ToastUtil.setToast(activity, "下载数据");
-        ProgressDialogUtil.startProgressDialog(activity,"下载中...");
+        ProgressDialogUtil.startProgressDialog(activity);
         if(activityType.equals("yzl")){
             fileName = yzl;
             DEFAULT_GDB_PATH = DEFAULT_GDB_PATH+yzl;
@@ -200,7 +200,7 @@ public class GDBUtil {
     public static void synchronize(final BaseActivity activity,String activityType) {
 
         ToastUtil.setToast(activity, "数据上传");
-        ProgressDialogUtil.startProgressDialog(activity,"上传中...");
+        ProgressDialogUtil.startProgressDialog(activity);
         if(activityType.equals("yzl")){
             fileName = yzl;
             DEFAULT_GDB_PATH = DEFAULT_GDB_PATH+yzl;

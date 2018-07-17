@@ -7,15 +7,15 @@ package com.otitan.sclyyq.entity;
 
 public class MobileInfo {
 
-    private String ID;//主键ID
-    private String SBH;//设备号
-    private String SYZNAME;//使用者姓名
-    private String SYZPHONE;//使用者手机号
-    private String DQXXID;//地区ID
-    private String DZ;//备注
-    private String DJTIME;//登记时间
-    private String SBMC;//设备名称
-    private String XLH;//序列号
+    private String ID = "";//主键ID
+    private String SBH = "";//设备号
+    private String SYZNAME = "";//使用者姓名
+    private String SYZPHONE = "";//使用者手机号
+    private String DQXXID = "";//地区ID
+    private String DZ = "";//备注
+    private String DJTIME = "";//登记时间
+    private String SBMC = "";//设备名称
+    private String XLH = "";//序列号
 
     public String getID() {
         return ID;

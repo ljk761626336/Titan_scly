@@ -52,6 +52,16 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="vrn5PmTl38mk3Gux8nDrBf32" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.otitan.zbslzy.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
         <activity
             android:name=".activity.YzlActivity"
             android:configChanges="screenSize|keyboardHidden|orientation"
@@ -160,6 +170,9 @@
         <activity
             android:name=".activity.LmcfActivity"
             android:screenOrientation="landscape" />
+        <activity android:name=".activity.EventReportActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation"/>
+        <activity android:name=".activity.ImageBrowseActivity" />
     </application>
 
 </manifest>

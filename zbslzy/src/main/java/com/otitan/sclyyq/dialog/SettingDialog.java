@@ -32,13 +32,16 @@ public class SettingDialog extends Dialog {
     private View gpsCaijiInclude;
     private IBaseView iBaseView;
     private GpsCollectPresenter gpsCollectPresenter;
+    private BaseActivity baseActivity;
 
-    public SettingDialog(@NonNull Context context, @StyleRes int themeResId,IBaseView baseView,GpsCollectPresenter gpsCollectPresenter) {
+    public SettingDialog(@NonNull Context context, @StyleRes int themeResId, IBaseView baseView,
+                         GpsCollectPresenter gpsCollectPresenter, BaseActivity baseActivity) {
         super(context, themeResId);
         this.mContext = context;
         this.iBaseView = baseView;
         this.gpsCaijiInclude = iBaseView.getGpsCaijiInclude();
         this.gpsCollectPresenter = gpsCollectPresenter;
+        this.baseActivity = baseActivity;
     }
 
     @Override
@@ -62,14 +65,14 @@ public class SettingDialog extends Dialog {
 
             @Override
             public void onClick(View arg0) {
-                GpsSetDialog setDialog = new GpsSetDialog(mContext,R.style.Dialog);
+                GpsSetDialog setDialog = new GpsSetDialog(mContext, R.style.Dialog);
                 BussUtil.setDialogParams(mContext, setDialog, 0.5, 0.5);
             }
         });
 
         TextView version = (TextView) findViewById(R.id.version_check);
-        double code = new VersionUpdata((BaseActivity)mContext).getVersionCode(mContext);
-        version.setText("版本更新   "+code);
+        double code = new VersionUpdata((BaseActivity) mContext).getVersionCode(mContext);
+        version.setText("版本更新   " + code);
         version.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -79,16 +82,16 @@ public class SettingDialog extends Dialog {
         });
 
         final CheckBox gpsCjlx = (CheckBox) findViewById(R.id.lxcj);
-        if(gpsCaijiInclude.getVisibility() == View.VISIBLE){
+        if (gpsCaijiInclude.getVisibility() == View.VISIBLE) {
             gpsCjlx.setChecked(true);
         }
         gpsCjlx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-                if(arg1){
-                    gpsCollectPresenter.showCollectionType(gpsCaijiInclude,SettingDialog.this);
-                }else{
+                if (arg1) {
+                    gpsCollectPresenter.showCollectionType(gpsCaijiInclude, SettingDialog.this);
+                } else {
                     gpsCaijiInclude.setVisibility(View.GONE);
                 }
             }
@@ -97,19 +100,45 @@ public class SettingDialog extends Dialog {
         ImageView close = (ImageView) findViewById(R.id.settings_close);
         close.setOnClickListener(new CancleListener(this));
 
+        final CheckBox addPoint = findViewById(R.id.add_mode_point);
+        final CheckBox addLine = findViewById(R.id.add_mode_line);
+        if (baseActivity.addModel == 0) {
+            addLine.setChecked(true);
+            addPoint.setChecked(false);
+        } else {
+            addLine.setChecked(false);
+            addPoint.setChecked(true);
+        }
+
+        addPoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                baseActivity.addModel = addPoint.isChecked() ? 1 : 0;
+                addLine.setChecked(false);
+            }
+        });
+        addLine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                baseActivity.addModel = addPoint.isChecked() ? 0 : 1;
+                addPoint.setChecked(false);
+                baseActivity.dotPainting.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     /*检查版本更新*/
-    private class UpdataThread extends Thread{
+    private class UpdataThread extends Thread {
 
         @Override
         public void run() {
             super.run();
-            if(MyApplication.getInstance().netWorkTip()){
+            if (MyApplication.getInstance().netWorkTip()) {
                 // 获取当前版本号 是否是最新版本
                 String updateurl = mContext.getResources().getString(R.string.updateurl);
-                boolean flag = new VersionUpdata((BaseActivity)mContext).checkVersion(updateurl);
-                if(!flag){
+                boolean flag = new VersionUpdata((BaseActivity) mContext).checkVersion(updateurl);
+                if (!flag) {
                     ((BaseActivity) mContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

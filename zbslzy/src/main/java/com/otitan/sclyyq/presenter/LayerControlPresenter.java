@@ -93,7 +93,8 @@ public class LayerControlPresenter {
         //地形图
         CheckBox cb_dxt = (CheckBox) childView.findViewById(R.id.cb_dxt);
         if (controlView.getDxtLayer() != null) {
-            cb_dxt.setChecked(controlView.getDxtLayer().isVisible());
+//            cb_dxt.setChecked(controlView.getDxtLayer().isVisible());
+            cb_dxt.setChecked(false);
         }
         // 地形图
         cb_dxt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -274,6 +275,9 @@ public class LayerControlPresenter {
 
     /** 图层控制  根据区县 加载otms中资源数据 */
     private void initOtmsData(String qname) {
+        if (controlView.getSysLayerData()==null){
+            controlView.setSysLayerData(BussUtil.getConfigXml(mContext,"yzl"));
+        }
         final List<File> groups = MyApplication.resourcesManager.getOtmsFolder(controlView.getSysLayerData());
         if(groups == null || groups.size() ==0){
             return;

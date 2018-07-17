@@ -61,7 +61,15 @@ import android.widget.Toast;
  * 有害生物页面
  */
 public class YHSWActivity extends BaseActivity {
+	@Override
+	public void setReportDialog(Dialog dialog) {
 
+	}
+
+	@Override
+	public Dialog getReportDialog() {
+		return null;
+	}
 	/* 执行progressbar */
 	private int REQUEST_CODE = 0;
 	private int REQUEST_IMAGE = 1;

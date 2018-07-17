@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,28 +129,32 @@ public class BasePresenter {
         this.iBaseView = view;
     }
 
+    /**
+     * 加载基础地图
+     * @return
+     */
+    public TiledLayer addBaseLayer(){
+        String path = MyApplication.resourcesManager.getTitlePath();
+        if (new File(path).exists()) {
+            ArcGISLocalTiledLayer tiledLayer = new ArcGISLocalTiledLayer(path);
+            iBaseView.getMapView().addLayer(tiledLayer);
+            return tiledLayer;
+        } else {
+            String titlepath = iBaseView.getActivity().getResources().getString(R.string.image_layer);
+            ArcGISTiledMapServiceLayer tiledMapServiceLayer = new ArcGISTiledMapServiceLayer(titlepath);
+            iBaseView.getMapView().addLayer(tiledMapServiceLayer);
+            return tiledMapServiceLayer;
+        }
+    }
+
     /**添加tpk文件地图*/
     public TiledLayer addTitleLayer(@NonNull String path){
         if (new File(path).exists()) {
             ArcGISLocalTiledLayer tiledLayer = new ArcGISLocalTiledLayer(path);
             iBaseView.getMapView().addLayer(tiledLayer);
             return tiledLayer;
-        }else{
-            //String titlepath = "http://services.arcgisonline.com/arcgis/rest/services/ESRI_StreetMap_World_2D/MapServer";
-            //ArcGISTiledMapServiceLayer tiledMapServiceLayer = new ArcGISTiledMapServiceLayer(titlepath);
-            //iBaseView.getMapView().addLayer(tiledMapServiceLayer);
-            //加载天地图
-            TianDiTuTiledMapServiceLayer tiledMapServiceLayer = new TianDiTuTiledMapServiceLayer(TianDiTuTiledMapServiceType.IMG_C);
-            iBaseView.getMapView().addLayer(tiledMapServiceLayer);
-
-            TianDiTuTiledMapServiceLayer cvaLayer = new TianDiTuTiledMapServiceLayer(TianDiTuTiledMapServiceType.CVA_C);
-            iBaseView.getMapView().addLayer(cvaLayer);
-//            String zjpath = baseActivity.getResources().getString(R.string.title_zhuji);
-//            ArcGISTiledMapServiceLayer zjLayer = new ArcGISTiledMapServiceLayer(zjpath);
-//            iBaseView.getMapView().addLayer(zjLayer);
-
-            return tiledMapServiceLayer;
         }
+        return new ArcGISLocalTiledLayer(path);
     }
 
     /**添加graphicLayer图层*/
@@ -290,13 +295,18 @@ public class BasePresenter {
 
             @Override
             public void onError(Throwable e) {
-                ToastUtil.setToast(baseActivity,"网络错误");
+                ToastUtil.setToast(baseActivity,"网络错误:"+e.getMessage());
             }
 
             @Override
             public void onNext(String result) {
                 if (result != null) {
                     //0为成功 1为失败 2为设备未登记
+                    /*if (result.equals("1")){
+                        ToastUtil.setToast(iBaseView.getActivity(),"坐标上报失败");
+                    }else if (result.equals("2")){
+                        ToastUtil.setToast(iBaseView.getActivity(),"设备信息未录入");
+                    }*/
                 }
             }
         });

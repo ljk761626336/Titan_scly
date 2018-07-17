@@ -2,6 +2,7 @@ package com.otitan.sclyyq.presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
@@ -20,15 +21,24 @@ import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.Polyline;
 import com.esri.core.map.Graphic;
 import com.esri.core.symbol.PictureMarkerSymbol;
+import com.esri.core.symbol.SimpleLineSymbol;
+import com.google.gson.Gson;
 import com.otitan.sclyyq.BaseActivity;
 import com.otitan.sclyyq.MyApplication;
+import com.otitan.sclyyq.R;
+import com.otitan.sclyyq.activity.EventReportActivity;
 import com.otitan.sclyyq.adapter.MyExpandableListAdapter;
 import com.otitan.sclyyq.db.DataBaseHelper;
-import com.otitan.sclyyq.timepaker.TimePopupWindow;
+import com.otitan.sclyyq.entity.Trajectory;
+import com.otitan.sclyyq.model.FormatModel;
+import com.otitan.sclyyq.model.TrajectoryModel;
+import com.otitan.sclyyq.model.modelview.IFormatModel;
+import com.otitan.sclyyq.model.modelview.ITrajectoryModel;
+import com.otitan.sclyyq.mview.ITrajectoryView;
+import com.otitan.sclyyq.presenter.ipresenter.ITrajectoryPresenter;
 import com.otitan.sclyyq.util.GeometryUtil;
-import com.otitan.sclyyq.R;
-import com.otitan.sclyyq.mview.IBaseView;
 import com.otitan.sclyyq.util.ToastUtil;
+import com.titan.baselibrary.timepaker.TimePopupWindow;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -42,21 +52,36 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by li on 2017/6/2.
  * 轨迹查询Presenter
  */
 
-public class TrajectoryPresenter {
+public class TrajectoryPresenter extends BasePresenter implements ITrajectoryPresenter {
 
     private BaseActivity mContext;
-    private IBaseView iBaseView;
-    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private ITrajectoryView recordview;
+    private ITrajectoryModel recordModel;
+    private IFormatModel formatModel;
 
-    public TrajectoryPresenter(BaseActivity context,IBaseView baseView){
-        this.mContext = context;
-        this.iBaseView = baseView;
+    /*轨迹记录 line */
+    private Polyline reportLine;
+    /*是否开始记录轨迹*/
+    private boolean reportFlag = false;
+    /*巡查路线样式*/
+    private SimpleLineSymbol lineSymbol;
+    /*巡查路线标会id*/
+    private int lineGraphicID = 0;
+
+    public TrajectoryPresenter(ITrajectoryView view) {
+        super(view.getActivity(), view);
+        this.mContext = view.getActivity();
+        this.recordview = view;
+        this.formatModel = new FormatModel();
+        this.recordModel = new TrajectoryModel();
+        initLineSymbol();
     }
 
     /**
@@ -64,8 +89,9 @@ public class TrajectoryPresenter {
      */
     private List<Map<String, Object>> listExpandable = new ArrayList<>();
     private List<Map<String, Object>> listExpandable_path = new ArrayList<>();
+
     public void initMyTrajectorySearch(final View view) {
-        final Button startTime = (Button) view.findViewById(R.id.startTime);
+        final TextView startTime = (TextView) view.findViewById(R.id.startTime);
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
         startTime.setText(getTime(cal.getTime()));
@@ -77,7 +103,7 @@ public class TrajectoryPresenter {
             }
         });
 
-        final Button endTime = (Button) view.findViewById(R.id.endTime);
+        final TextView endTime = (TextView) view.findViewById(R.id.endTime);
         endTime.setText(getTime(new Date()));
         endTime.setOnClickListener(new View.OnClickListener() {
 
@@ -90,8 +116,9 @@ public class TrajectoryPresenter {
         Spinner spinner = (Spinner) view.findViewById(R.id.select_lately);
         // Spinner绑定数据
         final String[] strArray = mContext.getResources().getStringArray(R.array.hour_select);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.myspinner_blue, strArray);
-        // adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strArray);
+        // adapter.setDropDownViewResource(android.R.unreportdata.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.myspinner);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -137,7 +164,7 @@ public class TrajectoryPresenter {
                             listExpandable_path.add(listExpandable.get(i));
                         }
                     }
-                    ((Activity)mContext).runOnUiThread(new Runnable() {
+                    ((Activity) mContext).runOnUiThread(new Runnable() {
                         public void run() {
                             drawLine(listExpandable_path, progress);
                         }
@@ -157,7 +184,7 @@ public class TrajectoryPresenter {
                             listExpandable_path.add(listExpandable.get(i));
                         }
                     }
-                    ((Activity)mContext).runOnUiThread(new Runnable() {
+                    ((Activity) mContext).runOnUiThread(new Runnable() {
                         public void run() {
                             drawLine(listExpandable_path, current);
                         }
@@ -166,12 +193,12 @@ public class TrajectoryPresenter {
             }
         });
 
-        final Button btn_replay = (Button) view.findViewById(R.id.btn_replay);
+        final TextView btn_replay = (TextView) view.findViewById(R.id.btn_replay);
         // 初始化runnable开始
         mContext.hfrunnable = new Runnable() {
             @Override
             public void run() {
-                ((Activity)mContext).runOnUiThread(new Runnable() {
+                ((Activity) mContext).runOnUiThread(new Runnable() {
                     public void run() {
                         int curpro = processbar.getProgress();
                         if (curpro != processbar.getMax()) {
@@ -216,64 +243,60 @@ public class TrajectoryPresenter {
                 expandable.setVisibility(View.GONE);
                 String startT = startTime.getText().toString();
                 String endT = endTime.getText().toString();
-                try {
-                    long start = format.parse(startT).getTime();
-                    long end = format.parse(endT).getTime();
-                    if (end > start) {
-                        List<Map<String, Object>> list = DataBaseHelper.selectPointGuiji(mContext, MyApplication.macAddress, startT, endT);
-                        if (list.size() <= 1){
-                            ToastUtil.setToast(mContext,"无轨迹点");
-                            return;
-                        }
-                        int length = list.size();
-                        processbar.setEnabled(true);
-                        btn_replay.setEnabled(true);
-                        Polyline polyline = new Polyline();
-                        Polygon polygon = null;
-                        for (int i = length - 1; i >= 0; i--) {
-                            double lon = Double.parseDouble(list.get(i).get("lon").toString());
-                            double lat = Double.parseDouble(list.get(i).get("lat").toString());
+                long start = formatModel.parseFormat(startT).getTime();
+                long end = formatModel.parseFormat(endT).getTime();
+                if (end > start) {
+                    List<Map<String, Object>> list = DataBaseHelper.selectPointGuiji(mContext, MyApplication.macAddress, startT, endT);
+                    if (list.size() <= 1) {
+                        ToastUtil.setToast(mContext, "无轨迹点");
+                        return;
+                    }
+                    int length = list.size();
+                    processbar.setEnabled(true);
+                    btn_replay.setEnabled(true);
+                    Polyline polyline = new Polyline();
+                    Polygon polygon = null;
+                    for (int i = length - 1; i >= 0; i--) {
+                        double lon = Double.parseDouble(list.get(i).get("lon").toString());
+                        double lat = Double.parseDouble(list.get(i).get("lat").toString());
 
-                            if (i == 0) {
-                                // 终点
-                                Point endtPoint = new Point(lon, lat);
-                                PictureMarkerSymbol endPicture = new PictureMarkerSymbol(
-                                        mContext.getResources().getDrawable(R.drawable.nav_route_result_end_point));
-                                endPicture.setOffsetY(18);
-                                iBaseView.getGraphicLayer().addGraphic(new Graphic(endtPoint, endPicture));
-                                polyline.lineTo(endtPoint);
+                        if (i == 0) {
+                            // 终点
+                            Point endtPoint = new Point(lon, lat);
+                            PictureMarkerSymbol endPicture = new PictureMarkerSymbol(
+                                    mContext.getResources().getDrawable(R.drawable.nav_route_result_end_point));
+                            endPicture.setOffsetY(18);
+                            recordview.getGraphicLayer().addGraphic(new Graphic(endtPoint, endPicture));
+                            polyline.lineTo(endtPoint);
+                            listExpandable.add(list.get(i));
+                            processbar.setMax(listExpandable.size());
+                        } else if (i == length - 1) {
+                            // 起点
+                            Point startPoint = new Point(lon, lat);
+                            polygon = mContext.creatPolygon(startPoint);
+                            PictureMarkerSymbol startpicture = new PictureMarkerSymbol(
+                                    mContext.getResources().getDrawable(R.drawable.nav_route_result_start_point));
+                            startpicture.setOffsetY(18);
+                            recordview.getGraphicLayer().addGraphic(new Graphic(startPoint, startpicture));
+                            polyline.startPath(startPoint);
+                            listExpandable.add(list.get(i));
+                        } else {
+                            Point point = new Point(lon, lat);
+                            boolean flag = GeometryEngine.intersects(
+                                    polygon, point, recordview.getSpatialReference());
+                            if (!flag) {
+                                polyline.lineTo(point);
+                                polygon = mContext.creatPolygon(new Point(lon, lat));
                                 listExpandable.add(list.get(i));
-                                processbar.setMax(listExpandable.size());
-                            } else if (i == length - 1) {
-                                // 起点
-                                Point startPoint = new Point(lon, lat);
-                                polygon = mContext.creatPolygon(startPoint);
-                                PictureMarkerSymbol startpicture = new PictureMarkerSymbol(
-                                        mContext.getResources().getDrawable(R.drawable.nav_route_result_start_point));
-                                startpicture.setOffsetY(18);
-                                iBaseView.getGraphicLayer().addGraphic(new Graphic(startPoint, startpicture));
-                                polyline.startPath(startPoint);
-                                listExpandable.add(list.get(i));
-                            } else {
-                                Point point = new Point(lon, lat);
-                                boolean flag = GeometryEngine.intersects(
-                                        polygon, point,iBaseView.getSpatialReference());
-                                if (!flag) {
-                                    polyline.lineTo(point);
-                                    polygon = mContext.creatPolygon(new Point(lon, lat));
-                                    listExpandable.add(list.get(i));
-                                }
                             }
                         }
-                        try {
-                            GeometryUtil.addPolylineToGraphicsLayer(polyline, Color.BLUE, 2, iBaseView.getGraphicLayer());
-                        } catch (java.lang.Exception e) {
-                            e.printStackTrace();
-                        }
-                        iBaseView.getMapView().setExtent(polyline);
                     }
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    try {
+                        GeometryUtil.addPolylineToGraphicsLayer(polyline, Color.BLUE, 2, recordview.getGraphicLayer());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    recordview.getMapView().setExtent(polyline);
                 }
             }
         });
@@ -283,25 +306,21 @@ public class TrajectoryPresenter {
             @Override
             public void onClick(View arg0) {
                 listExpandable.clear();
-                try {
-                    String startT = startTime.getText().toString();
-                    String endT = endTime.getText().toString();
-                    long start = format.parse(startT).getTime();
-                    long end = format.parse(endT).getTime();
-                    if (end > start) {
-                        listExpandable = DataBaseHelper.selectPointGuiji(
-                                mContext, MyApplication.macAddress, startT, endT);
-                        if (listExpandable.size() == 0)
-                            return;
-                        expandable.setVisibility(View.VISIBLE);
-                        processbar.setEnabled(true);
-                        btn_replay.setEnabled(true);
-                        int length = listExpandable.size();
-                        processbar.setMax(length);
-                        showExpandableListView(expandable, listExpandable);
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                String startT = startTime.getText().toString();
+                String endT = endTime.getText().toString();
+                long start = formatModel.parseFormat(startT).getTime();
+                long end = formatModel.parseFormat(endT).getTime();
+                if (end > start) {
+                    listExpandable = DataBaseHelper.selectPointGuiji(
+                            mContext, MyApplication.macAddress, startT, endT);
+                    if (listExpandable.size() == 0)
+                        return;
+                    expandable.setVisibility(View.VISIBLE);
+                    processbar.setEnabled(true);
+                    btn_replay.setEnabled(true);
+                    int length = listExpandable.size();
+                    processbar.setMax(length);
+                    showExpandableListView(expandable, listExpandable);
                 }
 
             }
@@ -316,15 +335,17 @@ public class TrajectoryPresenter {
         });
     }
 
-
-    /**时间格式化*/
+    /**
+     * 时间格式化
+     */
     public String getTime(Date date) {
-        return format.format(date);
+        return formatModel.dateFormat(date);
     }
+
     /**
      * 时间选择popupwindow
      */
-    public void initSelectTimePopuwindow(final Button button, boolean isBefore) {
+    public void initSelectTimePopuwindow(final TextView button, boolean isBefore) {
         TimePopupWindow timePopupWindow = new TimePopupWindow(mContext, TimePopupWindow.Type.ALL);
         timePopupWindow.setCyclic(true);
         // 时间选择后回调
@@ -338,10 +359,26 @@ public class TrajectoryPresenter {
         timePopupWindow.showAtLocation(button, Gravity.BOTTOM, 0, 0, new Date(), isBefore);
     }
 
+    @Override
+    public void initSelectTimePopuwindow(final Button button, boolean flag) {
+        TimePopupWindow timePopupWindow = new TimePopupWindow(mContext, TimePopupWindow.Type.ALL);
+        timePopupWindow.setCyclic(true);
+        // 时间选择后回调
+        timePopupWindow.setOnTimeSelectListener(new TimePopupWindow.OnTimeSelectListener() {
+
+            @Override
+            public void onTimeSelect(Date date) {
+                button.setText(getTime(date));
+            }
+        });
+        timePopupWindow.showAtLocation(button, Gravity.BOTTOM, 0, 0, new Date(), flag);
+    }
+
     /**
      * 画线
      */
     private int palyGraphicID;
+
     private void drawLine(List<Map<String, Object>> list, int current) {
         if (listExpandable.size() > 0) {
             Point replayGeoPoint = new Point(Double.valueOf(listExpandable
@@ -352,9 +389,9 @@ public class TrajectoryPresenter {
             Graphic g = new Graphic(replayGeoPoint, new PictureMarkerSymbol(
                     mContext.getResources().getDrawable(R.drawable.car)));
             if (list.size() > 0) {
-                iBaseView.getGraphicLayer().removeGraphic(palyGraphicID);
+                recordview.getGraphicLayer().removeGraphic(palyGraphicID);
             }
-            palyGraphicID = iBaseView.getGraphicLayer().addGraphic(g);
+            palyGraphicID = recordview.getGraphicLayer().addGraphic(g);
             if (list.size() > 0) {
                 Polyline line = new Polyline();
                 line.startPath(replayGeoPoint);
@@ -366,12 +403,12 @@ public class TrajectoryPresenter {
 
                 try {
                     GeometryUtil.addPolylineToGraphicsLayer(line, Color.RED, 2,
-                            iBaseView.getGraphicLayer());
-                } catch (java.lang.Exception e) {
+                            recordview.getGraphicLayer());
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            iBaseView.getMapView().invalidate();
+            recordview.getMapView().invalidate();
         }
     }
 
@@ -379,7 +416,7 @@ public class TrajectoryPresenter {
      * 展示expandablelistview数据
      */
     @SuppressLint("SimpleDateFormat")
-    private void showExpandableListView(ExpandableListView expandable,List<Map<String, Object>> list) {
+    private void showExpandableListView(ExpandableListView expandable, List<Map<String, Object>> list) {
         int m = list.size();
         Set<String> groupSet = new HashSet<String>();
         final List<HashMap<Object, String>> childArray = new ArrayList<HashMap<Object, String>>();
@@ -466,15 +503,118 @@ public class TrajectoryPresenter {
                 PictureMarkerSymbol pictureMarkerSymbol = new PictureMarkerSymbol(mContext.getResources().getDrawable(R.drawable.icon_gcoding));
                 pictureMarkerSymbol.setOffsetY(20);
                 Graphic graphic = new Graphic(point, pictureMarkerSymbol);
-                if (graphic != null) {
-                    iBaseView.getGraphicLayer().addGraphic(graphic);
-                }
-                iBaseView.getMapView().setExtent(point);
-                iBaseView.getMapView().invalidate();
+                recordview.getGraphicLayer().addGraphic(graphic);
+                recordview.getMapView().setExtent(point);
+                recordview.getMapView().invalidate();
                 return false;
             }
         });
     }
 
 
+    @Override
+    public void startReport() {
+        reportFlag = true;
+        recordview.showRecord();
+        reportLine = new Polyline();
+
+        recordModel.setStartDate(new Date());
+        recordModel.setStartAddr(recordview.getCurAddStr());
+
+        Trajectory trajectory = new Trajectory();
+        String id = UUID.randomUUID().toString();
+        trajectory.setXC_ID(id);
+        trajectory.setXC_SBH(MyApplication.macAddress);
+        trajectory.setXC_STARTTIME(formatModel.dateFormatThree(new Date()));
+        trajectory.setXC_METHOD("0");
+        trajectory.setXC_XLLC("");
+        trajectory.setXC_NAME("");
+        trajectory.setXC_ENDTIME("");
+        trajectory.setREMARK("");
+
+        recordModel.sendTrajectory(recordview.getActivity(), trajectory);
+    }
+
+    @Override
+    public void suspendReport() {
+        if (reportFlag) {
+            reportFlag = false;
+        } else {
+            reportFlag = true;
+        }
+        recordview.suspendRecord();
+    }
+
+    @Override
+    public void lableReport() {
+        if (recordModel.getXCID().equals("")) {
+            ToastUtil.setToast(recordview.getActivity(), "网络错误,未获取到轨迹ID");
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(recordview.getActivity(), EventReportActivity.class);
+        intent.putExtra("ID", recordModel.getXCID());
+        recordview.getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void endReport() {
+        reportFlag = false;
+        recordview.hideRecord();
+        recordModel.setEndDate(new Date());
+        recordModel.setEndAddr(recordview.getCurAddStr());
+        recordModel.setLine(reportLine);
+        double leng = Math.abs(reportLine.calculateLength2D());
+        if (leng <= 1) {
+            ToastUtil.setToast(mContext, "你记录的距离太短,不保存本次记录");
+            return;
+        }
+
+        Trajectory trajectory = new Trajectory();
+        String id = recordModel.getXCID();
+        trajectory.setXC_ID(id);
+        trajectory.setXC_SBH(MyApplication.macAddress);
+        trajectory.setXC_STARTTIME(formatModel.dateFormatThree(recordModel.getStartDate()));
+        trajectory.setXC_METHOD("0");
+        String ll = formatModel.decimalFormat(leng);
+        trajectory.setXC_XLLC(ll);
+        String name = formatModel.dateFormat(recordModel.getStartDate());
+        trajectory.setXC_NAME(name);
+        trajectory.setXC_ENDTIME(formatModel.dateFormatThree(new Date()));
+        trajectory.setREMARK("");
+
+        recordModel.sendTrajectory(recordview.getActivity(), trajectory);
+
+        reportLine = new Polyline();
+    }
+
+    @Override
+    public void recordLine() {
+        if (!reportFlag) {
+            return;
+        }
+        int size = reportLine.getStateFlag();
+        Point point = recordview.getCurrentPoint();
+        if (size == 0) {
+            reportLine.startPath(point);
+        } else {
+            reportLine.lineTo(point);
+        }
+
+        int path = reportLine.getPathCount();
+        int count = reportLine.getPointCount();
+
+        if (lineGraphicID == 0) {
+            Graphic graphic = new Graphic(reportLine, lineSymbol);
+            lineGraphicID = recordview.getGraphicLayer().addGraphic(graphic);
+        } else {
+            recordview.getGraphicLayer().updateGraphic(lineGraphicID, reportLine);
+        }
+
+    }
+
+    private void initLineSymbol() {
+        reportLine = new Polyline();
+        lineSymbol = new SimpleLineSymbol(Color.RED, 4);// 248,116,14
+    }
 }

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string-array name="xinxicaiji">
+        <item>--事件所属分类--</item>
+        <item>管理设施类</item>
+        <item>野生动植物类</item>
+        <item>人类活动类</item>
+        <item>其它类</item>
+    </string-array>
+
     <!--疫源疫病检测单位-->
     <string-array name="yyyb_jcdw">
         <item>---===---</item>

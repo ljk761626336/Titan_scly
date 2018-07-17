@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 /**
@@ -24,7 +25,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 public class RetrofitHelper {
 
     Context mContext;
-    static NetworkMonitor networkMonitor;
+    public static NetworkMonitor networkMonitor;
     static RetrofitHelper instance = null;
     private Retrofit mRetrofit = null;
 
@@ -58,13 +59,15 @@ public class RetrofitHelper {
             }
         });*/
         okHttpClientBuilder.addNetworkInterceptor(new MyNetworkInterceptor());
-        okHttpClientBuilder.connectTimeout(5, TimeUnit.SECONDS);
+        okHttpClientBuilder.connectTimeout(20, TimeUnit.SECONDS);
+        okHttpClientBuilder.writeTimeout(20, TimeUnit.SECONDS);
+        okHttpClientBuilder.readTimeout(20, TimeUnit.SECONDS);
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(mContext.getResources().getString(R.string.serverhost))
                 .client(okHttpClientBuilder.build())
-                .addConverterFactory(SimpleXmlConverterFactory.create())
-                //.addConverterFactory(GsonConverterFactory.create())
+//                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }

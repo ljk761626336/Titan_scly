@@ -10,6 +10,7 @@ import android.os.Message;
 import android.provider.Settings.Secure;
 import android.support.multidex.MultiDex;
 
+import com.otitan.sclyyq.service.RetrofitHelper;
 import com.otitan.sclyyq.util.ConnectionChangeReceiver;
 import com.otitan.sclyyq.util.ResourcesManager;
 import com.otitan.sclyyq.entity.ScreenTool;
@@ -31,6 +32,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.otitan.sclyyq.util.BussUtil.getWifiMacAddress;
 
@@ -162,6 +168,38 @@ public class MyApplication extends Application {
 
 	}
 
+    /**
+     * 添加设备信息到后台数据库
+     */
+	public void addMacAddress2(){
+        Observable<String> observable = RetrofitHelper.getInstance(this)
+                .getServer().addMacAddress(macAddress,mobileXlh);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // 上传错误
+                        sharedPreferences.edit().putBoolean(macAddress, false).apply();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        if (s.contains("1")) {
+                            // 设备信息已经录入
+                            sharedPreferences.edit().putBoolean(macAddress, true).apply();
+                        }else if (s.contains("2")){
+                            // 设备信息录入失败
+                            sharedPreferences.edit().putBoolean(macAddress, false).apply();
+                        }
+                    }
+                });
+    }
 	/**
 	 * 异步类
 	 */
@@ -170,7 +208,8 @@ public class MyApplication extends Application {
 		@Override
 		protected Void doInBackground(final String... params) {
 			if (params[0].equals("addMacAddress")) {
-				addMacAddress();
+//				addMacAddress();
+                addMacAddress2();
 			} else if (params[0].equals("getMbInfo")) {
 				getMbInfo();
 			} else if (params[0].equals("copyDatabase")) {

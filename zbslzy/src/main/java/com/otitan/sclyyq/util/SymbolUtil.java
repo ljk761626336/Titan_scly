@@ -142,9 +142,16 @@ public class SymbolUtil {
 		txtView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
 		txtView.setText(label);
-		txtView.setTextSize(18);
+
+
+		if(!PadUtil.isPad(context)){
+			txtView.setTextSize(size-6);
+		}else {
+			txtView.setTextSize(size);
+		}
+
 		txtView.setTextColor(color);
-		txtView.setTextSize(size);
+
 		if (label.equals("起点")) {
 			layout.setPadding(80, 0, 0, 0);
 		} else {
@@ -194,7 +201,12 @@ public class SymbolUtil {
 				LayoutParams.WRAP_CONTENT));
 		txtView.setText(label);
 		txtView.setTextColor(color);
-		txtView.setTextSize(size);
+		if(!PadUtil.isPad(context)){
+			txtView.setTextSize(size-6);
+		}else {
+			txtView.setTextSize(size);
+		}
+
 		layout.setPadding(200, 0, 0, 0);
 		switch (mode) {
 

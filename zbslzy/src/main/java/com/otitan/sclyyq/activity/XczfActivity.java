@@ -4,6 +4,7 @@ import com.otitan.sclyyq.BaseActivity;
 import com.otitan.sclyyq.R;
 import com.otitan.sclyyq.util.BussUtil;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,15 @@ import android.widget.ImageView;
  */
 public class XczfActivity extends BaseActivity {
 
-	View parentView;
+	View parentView;@Override
+	public void setReportDialog(Dialog dialog) {
+
+	}
+
+	@Override
+	public Dialog getReportDialog() {
+		return null;
+	}
 	Context mContext;
 
 	@SuppressLint("NewApi")

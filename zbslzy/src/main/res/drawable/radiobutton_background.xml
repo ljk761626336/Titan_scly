@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="false"  android:drawable="@drawable/radiobutton_background_unchecked" />
+    <item android:state_checked="true"  android:drawable="@drawable/radiobutton_background_checked" />
+
+    <item android:state_enabled="false">
+        <shape>
+            <gradient
+                android:angle="270.0"
+                android:endColor="#a0e0b071"
+                android:startColor="#a0a67637" />
+
+            <corners
+                android:bottomLeftRadius="0.0dip"
+                android:bottomRightRadius="0.0dip"
+                android:radius="0.0dip"
+                android:topLeftRadius="0.0dip"
+                android:topRightRadius="0.0dip" />
+
+            <stroke
+                android:width="0dp"
+                android:color="#a0a67637" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape>
+            <gradient
+                android:angle="270.0"
+                android:endColor="#a0e0b071"
+                android:startColor="#a0a67637" />
+
+            <corners
+                android:bottomLeftRadius="0.0dip"
+                android:bottomRightRadius="0.0dip"
+                android:radius="0.0dip"
+                android:topLeftRadius="0.0dip"
+                android:topRightRadius="0.0dip" />
+
+            <stroke
+                android:width="0dp"
+                android:color="#a0a67637" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <gradient
+                android:angle="270.0"
+                android:endColor="@color/blue"
+                android:startColor="@color/blue" />
+
+            <corners
+                android:bottomLeftRadius="0.0dip"
+                android:bottomRightRadius="0.0dip"
+                android:radius="0.0dip"
+                android:topLeftRadius="0.0dip"
+                android:topRightRadius="0.0dip" />
+
+            <stroke
+                android:width="0dp"
+                android:color="@color/blue" />
+        </shape>
+    </item>
+</selector>

@@ -8,7 +8,9 @@ import com.esri.android.map.MapView;
 import com.esri.core.geometry.Envelope;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.SpatialReference;
+import com.otitan.sclyyq.BaseActivity;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -39,5 +41,13 @@ public interface IBaseView {
     MapView getMapView();
 
     Envelope getCurrentEnvelope();
+
+    BaseActivity getActivity();
+
+    String getCurAddStr();
+
+    Point getGpsPoint();
+
+    ArrayList<String> getPicList();
 
 }

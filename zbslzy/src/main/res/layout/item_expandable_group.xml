@@ -19,12 +19,11 @@
     <TextView
         android:id="@+id/id_group_txt"
         android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="left|center"
-        android:paddingLeft="7dp"
-        android:textColor="@color/balck"
-        android:textSize="16sp" />
+        android:padding="7dp"
+        android:textColor="@color/balck" />
 
     <Button
         android:id="@+id/layer_render"
@@ -33,8 +32,7 @@
         android:background="@drawable/background_view_rounded"
         android:focusable="false"
         android:gravity="center"
-        android:padding="8dp"
-        android:textSize="20sp"
+        android:padding="5dp"
         android:text="@string/randersetting"
         android:textColor="@color/blue" />
 

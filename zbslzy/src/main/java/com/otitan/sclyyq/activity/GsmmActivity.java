@@ -1,6 +1,7 @@
 package com.otitan.sclyyq.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +16,15 @@ import com.otitan.sclyyq.R;
  * 古树名木页面
  */
 public class GsmmActivity extends BaseActivity {
+	@Override
+	public void setReportDialog(Dialog dialog) {
 
+	}
+
+	@Override
+	public Dialog getReportDialog() {
+		return null;
+	}
 	View parentView;
 	GsmmActivity activity;
 	Context mContext;

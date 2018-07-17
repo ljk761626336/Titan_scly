@@ -623,13 +623,28 @@
     <string name="select_freeline">自由线勾绘</string>
     <string name="select_gps">GPS自动勾绘</string>
     <!-- webservice服务地址 -->
-    <string name="webservice">http://202.61.88.135:3061/appwebservice/FireService/YclyWebService.asmx</string>
+    <string name="webservice">http://101.201.54.143:8002/api/MobileAppServer/</string>
+    <!--<string name="webservice">http://192.168.10.105:8088/api/MobileAppServer/</string>-->
     <!--版本更新地址-->
     <string name="updateurl">http://101.201.54.143:8031/apk/sclyversion.xml</string>
     <!---->
     <!--<string name="serverhost">http://101.201.54.143:8031/</string>-->
-    <string name="serverhost">http://202.61.88.135:3061/appwebservice/FireService/YclyWebService.asmx/</string>
+    <string name="serverhost">http://101.201.54.143:8002/api/MobileAppServer/</string>
 
+    <!--主菜单-->
+    <string name="mainmenu_callout">图层标注</string>
+    <string name="mainmenu_render">渲染设置</string>
+    <string name="mainmemu_setting">系统设置</string>
+    <string name="mainmemu_updata">事件上报</string>
+    <string name="mainmenu_loc">坐标定位</string>
+    <string name="mainmenu_layermanage">图层控制</string>
+    <string name="mainmenu_checkin">定点打卡</string>
+    <string name="mainmenu_trackquery">轨迹查询</string>
+    <string name="mainmenu_xiaobanlist">小班清单</string>
+    <string name="mainmenu_laywerender">图层渲染</string>
+    <string name="mainmenu_xbbj">小班编辑</string>
+    <string name="mainmenu_query">小班查询</string>
+    <string name="mainmenu_placequery">地名查询</string>
     <string-array name="sfwfarray">
         <item>-全部-</item>
         <item>是</item>
@@ -750,7 +765,7 @@
     <string name="title_layer">http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer</string>
     <string name="title_zhuji">http://ahtdt.ahmap.gov.cn/arcgis/rest/services/AH_AnnoTest/MapServer</string>
     <!--影像地图-->
-    <string name="image_layer">http://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer</string>
+    <string name="image_layer">http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer</string>
     <!--数据同步服务-->
     <string name="onlin_cfsj">http://202.61.88.135:6080/arcgis/rest/services/APP/Sync_CFSJ/FeatureServer</string>
     <string name="online_yzl">http://202.61.88.135:6080/arcgis/rest/services/APP/Sync_YZL/FeatureServer</string>

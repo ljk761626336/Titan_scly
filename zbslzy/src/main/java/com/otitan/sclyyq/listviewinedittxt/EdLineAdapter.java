@@ -19,7 +19,6 @@ import com.esri.core.table.FeatureTable;
 import com.esri.core.table.TableException;
 import com.otitan.sclyyq.R;
 import com.otitan.sclyyq.dialog.ShuziDialog;
-import com.otitan.sclyyq.timepaker.TimePopupWindow;
 import com.otitan.sclyyq.util.EDUtil;
 import com.otitan.sclyyq.activity.ED_XBEditActivity;
 import com.otitan.sclyyq.db.DataBaseHelper;
@@ -29,6 +28,7 @@ import com.otitan.sclyyq.entity.Row;
 import com.otitan.sclyyq.util.BussUtil;
 import com.otitan.sclyyq.util.CursorUtil;
 import com.otitan.sclyyq.util.ToastUtil;
+import com.titan.baselibrary.timepaker.TimePopupWindow;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
