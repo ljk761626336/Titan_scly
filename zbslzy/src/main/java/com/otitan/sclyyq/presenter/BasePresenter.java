@@ -276,14 +276,18 @@ public class BasePresenter {
                 state = "1";
             }
         }
+        addGuijiOnLoc(currentPoint, state, recodeTime);
+    }
 
-        /* 离线保存 */
+    /* 离线保存 */
+    private void addGuijiOnLoc(@NonNull Point currentPoint, String state, String recodeTime) {
         DataBaseHelper.addPointGuiji(baseActivity,
                 MyApplication.macAddress, currentPoint.getX(),
                 currentPoint.getY(), recodeTime, state);
     }
 
     public void addPointToServer(@NonNull Point currentPoint){
+        final String[] state = {"0"};
         Observable<String> observable = RetrofitHelper.getInstance(baseActivity).getServer().uPLonLat(MyApplication.macAddress,
                 currentPoint.getX() + "", currentPoint.getY() + "",
                 format.format(new Date()));
@@ -296,20 +300,29 @@ public class BasePresenter {
             @Override
             public void onError(Throwable e) {
                 ToastUtil.setToast(baseActivity,"网络错误:"+e.getMessage());
+                state[0] = "0";
             }
 
             @Override
             public void onNext(String result) {
                 if (result != null) {
                     //0为成功 1为失败 2为设备未登记
-                    /*if (result.equals("1")){
-                        ToastUtil.setToast(iBaseView.getActivity(),"坐标上报失败");
-                    }else if (result.equals("2")){
-                        ToastUtil.setToast(iBaseView.getActivity(),"设备信息未录入");
-                    }*/
+                    switch (result) {
+                        case "0":
+                            state[0] = "1";
+                        case "1":
+                            state[0] = "0";
+                            break;
+                        case "2":
+                            state[0] = "0";
+                            break;
+                    }
+
                 }
             }
         });
+        String recodeTime = format.format(new Date());
+        addGuijiOnLoc(currentPoint, state[0], recodeTime);
     }
 
     /** 从相册选取图片进行编辑 */

@@ -33,6 +33,15 @@
                 android:text="@string/mainmenu_layermanage" />
 
             <TextView
+                android:id="@+id/sjlb_imageview"
+                style="@style/mainmenu_mobile_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_view_image"
+                android:drawableTop="@drawable/ic_mainmenu_layers"
+                android:text="@string/mainmenu_eventlist" />
+
+            <TextView
                 android:id="@+id/share_gjcx"
                 style="@style/mainmenu_mobile_tv"
                 android:background="@drawable/background_view_rounded_image"
@@ -82,7 +91,7 @@
                 android:background="@drawable/background_view_rounded_image"
                 android:drawableTop="@drawable/ic_mainmenu_track"
                 android:text="@string/mainmenu_checkin"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/share_xbqd"

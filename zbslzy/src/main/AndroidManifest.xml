@@ -173,6 +173,8 @@
         <activity android:name=".activity.EventReportActivity"
             android:configChanges="screenSize|keyboardHidden|orientation"/>
         <activity android:name=".activity.ImageBrowseActivity" />
+        <activity android:name=".activity.EventListActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
     </application>
 
 </manifest>

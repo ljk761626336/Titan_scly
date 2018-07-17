@@ -1,5 +1,6 @@
 package com.otitan.sclyyq.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -42,8 +44,6 @@ import com.otitan.sclyyq.model.FormatModel;
 import com.otitan.sclyyq.model.modelview.IEventReportModel;
 import com.otitan.sclyyq.mview.IEventReportView;
 import com.otitan.sclyyq.service.RetrofitHelper;
-import com.otitan.sclyyq.util.BaseUtil;
-import com.otitan.sclyyq.util.BussUtil;
 import com.titan.baselibrary.customview.MyRadioGroup;
 import com.titan.baselibrary.util.ProgressDialogUtil;
 import com.titan.baselibrary.util.ToastUtil;
@@ -124,6 +124,20 @@ public class EventReportActivity extends AppCompatActivity implements View.OnCli
     private EditText glssqitaEdit, ysdzwnameEdit, ysdzwshuliangEdit,
             sjxzqitaEdit, rlhdqitaEdit, rlhdBzEdit, qitavalueEdit;
 
+    // 所需的全部权限
+    static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // 缺少权限时, 进入权限配置页面
+        if (new com.titan.baselibrary.permission.PermissionsChecker(this).lacksPermissions(PERMISSIONS)) {
+            com.titan.baselibrary.permission.PermissionsActivity.startActivityForResult(this, com.titan.baselibrary.permission.PermissionsActivity.PERMISSIONS_REQUEST_CODE, PERMISSIONS);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -370,6 +384,9 @@ public class EventReportActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void addOnline() {
+        if (!checkContent()) {
+            return;
+        }
         //网络连接后上报成功
         Emergency emergency = new Emergency();
         emergency.setXJ_JD(formatModel.decimalFormat(reportView.getGpsPoint().getX()));
@@ -456,6 +473,9 @@ public class EventReportActivity extends AppCompatActivity implements View.OnCli
 
     /*本地保存*/
     private void addLocal() {
+        if (!checkContent()) {
+            return;
+        }
         Emergency emergency = new Emergency();
         emergency.setXJ_JD(formatModel.decimalFormat(reportView.getGpsPoint().getX()));
         emergency.setXJ_WD(formatModel.decimalFormat(reportView.getGpsPoint().getY()));
@@ -489,8 +509,6 @@ public class EventReportActivity extends AppCompatActivity implements View.OnCli
             String audiobase = Util.fileToString(getAudioPath());
             audio.setName(audioFile.getName());
             audio.setBase(audiobase);
-            List list = new ArrayList<>();
-            list.add(audio);
             emergency.setXJ_YPDZ(audioFile.getPath());
         }
 
@@ -501,14 +519,13 @@ public class EventReportActivity extends AppCompatActivity implements View.OnCli
             String videobase = Util.fileToString(getVideoPath());
             video.setName(videoFile.getName());
             video.setBase(videobase);
-            List list = new ArrayList<>();
-            list.add(video);
             emergency.setXJ_SPDZ(videoFile.getPath());
         }
 
         //保存数据
-        boolean state = DataBaseHelper.addUnResportData(mContext, emergency);
-        if (state) {
+        //boolean state = DataBaseHelper.addUnResportData(mContext, emergency);
+        long id = BaseActivity.greenDaoManager.getmDaoSession().getEmergencyDao().insert(emergency);
+        if (id >= 0) {
             ToastUtil.setToast(mContext, "保存成功");
             finish();
         } else {
@@ -774,5 +791,22 @@ public class EventReportActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
         }
+    }
+
+    /**
+     * 检测内容是否为空
+     *edtName, edtAddress
+     * @return true表示不为空 false存在空值
+     */
+    private boolean checkContent() {
+        boolean flag = true;
+        if (TextUtils.isEmpty(sjmcEdit.getText())) {
+            com.otitan.sclyyq.util.ToastUtil.setToast(mContext, "事件名称不能为空");
+            flag = false;
+        } else if (TextUtils.isEmpty(sjmsEdit.getText())) {
+            com.otitan.sclyyq.util.ToastUtil.setToast(mContext, "事件描述不能为空");
+            flag = false;
+        }
+        return flag;
     }
 }

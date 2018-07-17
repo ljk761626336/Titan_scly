@@ -87,6 +87,7 @@ import com.esri.core.tasks.na.RouteTask;
 import com.esri.core.tasks.na.StopGraphic;
 import com.esri.core.tasks.query.QueryParameters;
 import com.lling.photopicker.PhotoPickerActivity;
+import com.otitan.sclyyq.activity.EventListActivity;
 import com.otitan.sclyyq.activity.EventReportActivity;
 import com.otitan.sclyyq.adapter.FeatureArraysAdapter;
 import com.otitan.sclyyq.adapter.FeatureResultAdapter;
@@ -117,6 +118,7 @@ import com.otitan.sclyyq.entity.ActionMode;
 import com.otitan.sclyyq.entity.MyFeture;
 import com.otitan.sclyyq.entity.MyLayer;
 import com.otitan.sclyyq.entity.Row;
+import com.otitan.sclyyq.greendao.GreenDaoManager;
 import com.otitan.sclyyq.mview.IBaseView;
 import com.otitan.sclyyq.mview.IEventReportView;
 import com.otitan.sclyyq.mview.ILayerControlView;
@@ -493,6 +495,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         endRecordView = trajectoryView.findViewById(R.id.record_end);
         endRecordView.setOnClickListener(this);
 
+        /*事件列表*/
+        TextView sjlbImgView = childview.findViewById(R.id.sjlb_imageview);
+        sjlbImgView.setOnClickListener(this);
         /*图层控制按钮*/
         TextView tckzImgView = childview.findViewById(R.id.tckz_imageview);
         tckzImgView.setOnClickListener(this);
@@ -1078,6 +1083,8 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             if (MyApplication.getInstance().netWorkTip()) {
                 basePresenter.addPointToServer(currentPoint);
             }
+
+
         }
     }
 
@@ -1671,6 +1678,11 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                 /*系统设置*/
                 showDialogSettings();
                 //gpsCollectPresenter.showGPSCollectType();
+                break;
+            case R.id.sjlb_imageview:
+                /*事件列表*/
+                Intent intent1 = new Intent(this, EventListActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.tckz_imageview:
                 /* 图层控制*/
@@ -3473,6 +3485,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         BussUtil.setDialogParams(mContext, setDialog, 0.55, 0.55);
     }
 
+    public static GreenDaoManager greenDaoManager;
     @Override
     protected void onStart() {
         super.onStart();
@@ -3480,21 +3493,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
 // 缺少权限时, 进入权限配置页面
         if (new com.titan.baselibrary.permission.PermissionsChecker(this).lacksPermissions(PERMISSIONS)) {
             com.titan.baselibrary.permission.PermissionsActivity.startActivityForResult(this, com.titan.baselibrary.permission.PermissionsActivity.PERMISSIONS_REQUEST_CODE, PERMISSIONS);
+        }else {
+            greenDaoManager = GreenDaoManager.getInstance();
         }
-
-        /* 获取 数据所属 数据 */
-        if (sjssLlist.size() == 0) {
-            new MyAsyncTask().execute("sjss");
-        }
-        /* 获取 行政区域 数据 */
-        if (xzqyLlist.size() == 0) {
-            new MyAsyncTask().execute("xzqy");
-        }
-        /* 获取 基地性质 数据 */
-        if (jdxzLlist.size() == 0) {
-            new MyAsyncTask().execute("jdxz");
-        }
-
 
     }
 

@@ -638,6 +638,7 @@
     <string name="mainmemu_updata">事件上报</string>
     <string name="mainmenu_loc">坐标定位</string>
     <string name="mainmenu_layermanage">图层控制</string>
+    <string name="mainmenu_eventlist">事件列表</string>
     <string name="mainmenu_checkin">定点打卡</string>
     <string name="mainmenu_trackquery">轨迹查询</string>
     <string name="mainmenu_xiaobanlist">小班清单</string>
@@ -645,6 +646,7 @@
     <string name="mainmenu_xbbj">小班编辑</string>
     <string name="mainmenu_query">小班查询</string>
     <string name="mainmenu_placequery">地名查询</string>
+    <string name="mainmenu_people">个人中心</string>
     <string-array name="sfwfarray">
         <item>-全部-</item>
         <item>是</item>

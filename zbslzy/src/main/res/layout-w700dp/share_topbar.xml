@@ -31,6 +31,15 @@
             android:text="@string/mainmenu_layermanage" />
 
         <TextView
+            android:id="@+id/sjlb_imageview"
+            style="@style/mainmenu_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_view_image"
+            android:drawableTop="@drawable/share_tucengkongzhi"
+            android:text="@string/mainmenu_eventlist" />
+
+        <TextView
             android:id="@+id/share_xbqd"
             style="@style/mainmenu_tv"
             android:layout_width="wrap_content"
@@ -99,11 +108,12 @@
 
         <TextView
             android:id="@+id/share_grzx"
+            style="@style/mainmenu_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_view_image"
             android:drawableTop="@drawable/share_person_center"
-            android:visibility="gone" />
+            android:text="@string/mainmenu_people"/>
 
         <TextView
             android:id="@+id/share_xtsz"

@@ -64,8 +64,8 @@ android {
     }
 
     greendao {
-        schemaVersion 1003
-        daoPackage 'com.otitan.zbslzy.dao'
+        schemaVersion 2004
+        daoPackage 'com.otitan.sclyyq.greendao'
         targetGenDir 'src/main/java'
     }
 }

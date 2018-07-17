@@ -7,18 +7,20 @@ import org.greenrobot.greendao.annotation.Id;
 import java.io.Serializable;
 import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Property;
 
 /**
  * Created by otitan_li on 2018/4/10.
  * 紧急事件现场信息
  */
-@Entity
+@Entity(nameInDb = "Emergency")
 public class Emergency implements Serializable {
 
     private static final long serialVersionUID = 794029065729708714L;
 
     @Id(autoincrement = true)
-    private long ID;
+    @Property(nameInDb = "ID")
+    private Long ID;
     /**
      * 经度
      */
@@ -67,8 +69,8 @@ public class Emergency implements Serializable {
      * 巡查路线的ID
      */
     private String XC_ID = "";
-    @Generated(hash = 1244330531)
-    public Emergency(long ID, String XJ_JD, String XJ_WD, String XJ_SJMC,
+    @Generated(hash = 1418485425)
+    public Emergency(Long ID, String XJ_JD, String XJ_WD, String XJ_SJMC,
             String XJ_MSXX, String XJ_ZPDZ, String XJ_SBBH, String REMARK,
             String XJ_SPDZ, String XJ_YPDZ, String XJ_XXDZ, String XJ_LX,
             String XC_ID) {
@@ -89,10 +91,10 @@ public class Emergency implements Serializable {
     @Generated(hash = 2133455553)
     public Emergency() {
     }
-    public long getID() {
+    public Long getID() {
         return this.ID;
     }
-    public void setID(long ID) {
+    public void setID(Long ID) {
         this.ID = ID;
     }
     public String getXJ_JD() {

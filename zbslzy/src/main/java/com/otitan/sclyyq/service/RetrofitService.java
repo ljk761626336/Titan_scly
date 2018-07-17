@@ -31,6 +31,10 @@ public interface RetrofitService {
     @POST("UPPatrolEvent")
     Observable<String> upRequisitionInfo(@Field("jsonText") String jsonText);
 
+    /*获取事件信息*/
+    @GET("GetUPPatrolEvent")
+    Observable<String> getUPPatrolEvent(@Query("pageIndex") int pageIndex ,@Query("pageSize") int pageSize);
+
     @GET("addMoblieSysInfo")
     Observable<String> addMoblieSysInfo(@Query("sysname") String sysname, @Query("tel") String tel,@Query("dw") String dw, @Query("retime") String retime,@Query("sbmc") String sbmc, @Query("sbh") String sbh,@Query("bz") String bz);
 
