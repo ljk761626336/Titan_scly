@@ -46,7 +46,7 @@ public class YzlActivity extends BaseActivity {
 		Context mContext = YzlActivity.this;
 		ImageView topview = parentView.findViewById(R.id.topview);
 //		topview.setBackground(mContext.getResources().getDrawable(R.drawable.share_top_yzl));
-		topview.setBackground(mContext.getResources().getDrawable(R.drawable.share_top));
+//		topview.setBackground(mContext.getResources().getDrawable(R.drawable.share_top));
 
 		activitytype = getIntent().getStringExtra("name");
 		activitytype = "yzl";

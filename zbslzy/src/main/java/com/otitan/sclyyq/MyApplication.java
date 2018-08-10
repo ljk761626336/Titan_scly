@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings.Secure;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.otitan.sclyyq.service.RetrofitHelper;
 import com.otitan.sclyyq.util.ConnectionChangeReceiver;
@@ -186,6 +187,7 @@ public class MyApplication extends Application {
                     public void onError(Throwable e) {
                         // 上传错误
                         sharedPreferences.edit().putBoolean(macAddress, false).apply();
+						Log.e("tag","设备信息上报错误");
                     }
 
                     @Override

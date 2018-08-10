@@ -14,6 +14,7 @@ import com.esri.core.geometry.Point;
 import com.esri.core.geometry.SpatialReference;
 
 import com.esri.core.io.UserCredentials;
+import com.otitan.sclyyq.BaseActivity;
 
 /**
  */
@@ -67,7 +68,7 @@ public class TianDiTuTiledMapServiceLayer extends TiledServiceLayer {
 	protected void initLayer() {
 		this.buildTileInfo();
 		this.setFullExtent(new Envelope(-180, -90, 180, 90));
-		this.setDefaultSpatialReference(SpatialReference.create(4490)); // CGCS2000
+		this.setDefaultSpatialReference(BaseActivity.spatialReference); // CGCS2000
 		// this.setDefaultSpatialReference(SpatialReference.create(4326));
 		this.setInitialExtent(new Envelope(117.32, 35.86, 118.31, 37.48));
 		super.initLayer();

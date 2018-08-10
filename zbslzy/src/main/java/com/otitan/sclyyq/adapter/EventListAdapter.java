@@ -2,9 +2,12 @@ package com.otitan.sclyyq.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.otitan.sclyyq.R;
@@ -37,11 +40,20 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyHo
     @Override
     public void onBindViewHolder(final MyHolder holder, int position) {
         holder.textView.setText(items.get(position).getXJ_SJMC());
-        if( mOnItemClickListener!= null){
-            holder.itemView.setOnClickListener( new View.OnClickListener() {
+        holder.sjTv.setText(items.get(position).getXJ_SCRQ().replace("T", " "));
+        boolean flag = TextUtils.isEmpty(items.get(position).getXJ_SCRQ());
+        holder.uploadImg.setVisibility(flag ? View.VISIBLE : View.GONE);
+        if (mOnItemClickListener != null) {
+            holder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mOnItemClickListener.onClick(holder.getAdapterPosition());
+                }
+            });
+            holder.uploadImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mOnItemClickListener.upLoad(holder.getAdapterPosition());
                 }
             });
         }
@@ -52,19 +64,28 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyHo
         return items.size();
     }
 
-    public interface OnItemClickListener{
-        void onClick( int position);
+    public interface OnItemClickListener {
+        void onClick(int position);
+
+        void upLoad(int position);
     }
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener ){
-        this.mOnItemClickListener=onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
+        LinearLayout layout;
         TextView textView;
+        TextView sjTv;
+        ImageView uploadImg;
 
         MyHolder(View itemView) {
             super(itemView);
+            layout = itemView.findViewById(R.id.item_linear);
             textView = itemView.findViewById(R.id.item_sjlb);
+            sjTv = itemView.findViewById(R.id.item_sjsj);
+            uploadImg = itemView.findViewById(R.id.item_upload);
         }
     }
 }

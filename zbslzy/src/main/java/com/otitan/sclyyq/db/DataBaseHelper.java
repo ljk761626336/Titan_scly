@@ -165,7 +165,7 @@ public class DataBaseHelper {
             db.open(databaseName, jsqlite.Constants.SQLITE_OPEN_READWRITE);
             String sql = "insert into point values(null," + lon + "," + lat
                     + ",'" + sbh + "','" + time + "'," + state
-                    + ",geomfromtext('POINT(" + lon + " " + lat + ")',4490))";
+                    + ",geomfromtext('POINT(" + lon + " " + lat + ")',2343))";
             db.exec(sql, null);
             db.close();
             flag = true;
@@ -187,7 +187,7 @@ public class DataBaseHelper {
             db.open(databaseName, jsqlite.Constants.SQLITE_OPEN_READWRITE);
             String sql = "insert into point values(null," + lon + "," + lat
                     + ",'" + sbh + "','" + time + "'," + state
-                    + ",st_geomfromtext('POINT(" + lon + " " + lat + ")',4490))";//st_geomfromtext geomfromtext
+                    + ",st_geomfromtext('POINT(" + lon + " " + lat + ")',2343))";//st_geomfromtext geomfromtext
             db.exec(sql, null);
             db.close();
             flag = true;

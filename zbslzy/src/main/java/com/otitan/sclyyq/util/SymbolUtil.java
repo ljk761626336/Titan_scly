@@ -28,6 +28,7 @@ import com.esri.core.symbol.SimpleFillSymbol;
 import com.esri.core.symbol.SimpleLineSymbol;
 import com.esri.core.symbol.Symbol;
 import com.esri.core.table.TableException;
+import com.otitan.sclyyq.BaseActivity;
 
 import java.util.List;
 
@@ -305,7 +306,7 @@ public class SymbolUtil {
 		// wgs1984的坐标
 		double y = 2 * latitude - gpsPoint.getY(); // 26.560757845054 wgs1984的坐标
 		Point point1 = (Point) GeometryEngine.project(new Point(x, y),
-				SpatialReference.create(4326), SpatialReference.create(4490));
+				SpatialReference.create(4326), BaseActivity.spatialReference);
 		Point upPoint = new Point(point1.getX() - 127.76798333,point1.getY() - 18.25273333);
 		// upPoint = new Point(upPoint.getX() - 165.029087904161,upPoint.getY()
 		// + 20.29954696370548);

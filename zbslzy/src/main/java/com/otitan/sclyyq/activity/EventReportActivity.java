@@ -39,6 +39,7 @@ import com.otitan.sclyyq.entity.Emergency;
 import com.otitan.sclyyq.entity.EvenType;
 import com.otitan.sclyyq.entity.Image;
 import com.otitan.sclyyq.entity.Video;
+import com.otitan.sclyyq.greendao.GreenDaoManager;
 import com.otitan.sclyyq.model.EventReportModel;
 import com.otitan.sclyyq.model.FormatModel;
 import com.otitan.sclyyq.model.modelview.IEventReportModel;
@@ -136,6 +137,10 @@ public class EventReportActivity extends AppCompatActivity implements View.OnCli
         // 缺少权限时, 进入权限配置页面
         if (new com.titan.baselibrary.permission.PermissionsChecker(this).lacksPermissions(PERMISSIONS)) {
             com.titan.baselibrary.permission.PermissionsActivity.startActivityForResult(this, com.titan.baselibrary.permission.PermissionsActivity.PERMISSIONS_REQUEST_CODE, PERMISSIONS);
+        } else {
+            if (BaseActivity.greenDaoManager == null) {
+                BaseActivity.greenDaoManager = GreenDaoManager.getInstance();
+            }
         }
     }
 
@@ -524,12 +529,17 @@ public class EventReportActivity extends AppCompatActivity implements View.OnCli
 
         //保存数据
         //boolean state = DataBaseHelper.addUnResportData(mContext, emergency);
-        long id = BaseActivity.greenDaoManager.getmDaoSession().getEmergencyDao().insert(emergency);
-        if (id >= 0) {
-            ToastUtil.setToast(mContext, "保存成功");
-            finish();
-        } else {
-            ToastUtil.setToast(mContext, "保存失败");
+        try{
+            long id = BaseActivity.greenDaoManager.getmDaoSession().getEmergencyDao().insert(emergency);
+            if (id >= 0) {
+                ToastUtil.setToast(mContext, "保存成功");
+                finish();
+            } else {
+                ToastUtil.setToast(mContext, "保存失败");
+            }
+        }catch (Exception e){
+            ToastUtil.setToast(mContext, "数据库错误：" + e);
+            Log.e("tag", "数据库错误：" + e);
         }
     }
 

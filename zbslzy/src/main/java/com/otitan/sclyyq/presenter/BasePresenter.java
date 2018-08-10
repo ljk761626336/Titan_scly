@@ -31,7 +31,6 @@ import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.TiledLayer;
 import com.esri.android.map.ags.ArcGISLocalTiledLayer;
 import com.esri.android.map.ags.ArcGISTiledMapServiceLayer;
-import com.esri.android.map.ogc.WMTSLayer;
 import com.esri.core.geodatabase.GeodatabaseFeature;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
 import com.esri.core.geometry.Envelope;
@@ -42,43 +41,34 @@ import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.Polyline;
 import com.esri.core.geometry.SpatialReference;
-import com.esri.core.io.UserCredentials;
-import com.esri.core.map.CodedValueDomain;
 import com.esri.core.map.Feature;
 import com.esri.core.map.Field;
 import com.esri.core.map.Graphic;
-import com.esri.core.ogc.wmts.WMTSLayerInfo;
-import com.esri.core.ogc.wmts.WMTSServiceInfo;
 import com.esri.core.symbol.Symbol;
 import com.esri.core.symbol.TextSymbol;
 import com.esri.core.table.FeatureTable;
 import com.esri.core.table.TableException;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.otitan.sclyyq.adapter.AttributeAdapter;
-import com.otitan.sclyyq.edite.activity.LineEditActivity;
-import com.otitan.sclyyq.entity.MobileInfo;
-import com.otitan.sclyyq.entity.MyFeture;
-import com.otitan.sclyyq.entity.Station;
-import com.otitan.sclyyq.service.RetrofitHelper;
-import com.otitan.sclyyq.tianditu.TianDiTuTiledMapServiceLayer;
-import com.otitan.sclyyq.tianditu.TianDiTuTiledMapServiceType;
-import com.otitan.sclyyq.util.BaseUtil;
 import com.otitan.sclyyq.BaseActivity;
 import com.otitan.sclyyq.MyApplication;
 import com.otitan.sclyyq.R;
 import com.otitan.sclyyq.activity.StartActivity;
+import com.otitan.sclyyq.adapter.AttributeAdapter;
 import com.otitan.sclyyq.adapter.FeatureResultAdapter;
 import com.otitan.sclyyq.adapter.SearchXdmAdapter;
 import com.otitan.sclyyq.db.DataBaseHelper;
 import com.otitan.sclyyq.db.DbHelperService;
 import com.otitan.sclyyq.dialog.ShouCangDialog;
+import com.otitan.sclyyq.edite.activity.LineEditActivity;
 import com.otitan.sclyyq.edite.activity.PointEditActivity;
 import com.otitan.sclyyq.edite.activity.XbEditActivity;
+import com.otitan.sclyyq.entity.MyFeture;
 import com.otitan.sclyyq.entity.MyLayer;
+import com.otitan.sclyyq.entity.Station;
 import com.otitan.sclyyq.entity.XdmSearchHistory;
 import com.otitan.sclyyq.mview.IBaseView;
+import com.otitan.sclyyq.service.RetrofitHelper;
 import com.otitan.sclyyq.service.Webservice;
+import com.otitan.sclyyq.util.BaseUtil;
 import com.otitan.sclyyq.util.BussUtil;
 import com.otitan.sclyyq.util.CursorUtil;
 import com.otitan.sclyyq.util.ResourcesManager;
@@ -87,8 +77,6 @@ import com.otitan.sclyyq.util.ToastUtil;
 import com.otitan.sclyyq.util.Util;
 import com.otitan.sclyyq.util.UtilTime;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.osgeo.proj4j.BasicCoordinateTransform;
 import org.osgeo.proj4j.CoordinateReferenceSystem;
 import org.osgeo.proj4j.ProjCoordinate;
@@ -170,10 +158,10 @@ public class BasePresenter {
         final View wgsView = view.findViewById(R.id.callout_mylocation_wgs);
         final View xianView = view.findViewById(R.id.callout_mylocation_xian80);
         TextView wgslon = (TextView) view.findViewById(R.id.callout_mylocation_wgs_lon);
-        String lonTxt = decimalFormat.format(iBaseView.getCurrentLon()) + "";
+        String lonTxt = decimalFormat.format(iBaseView.getGpsPoint().getX()) + "";
         wgslon.setText(lonTxt);
         TextView wgslat = (TextView) view.findViewById(R.id.callout_mylocation_wgs_lat);
-        String latTxt = decimalFormat.format(iBaseView.getCurrenLat()) + "";
+        String latTxt = decimalFormat.format(iBaseView.getGpsPoint().getY()) + "";
         wgslat.setText(latTxt);
         TextView xianlon = (TextView) view.findViewById(R.id.callout_mylocation_80_lon);
         String xx = decimalFormat.format(point.getX()) + "";
@@ -183,10 +171,10 @@ public class BasePresenter {
         xianlat.setText(yy);
 
         TextView wgslon1 = (TextView) view.findViewById(R.id.callout_mylocation_wgs_lon1);
-        wgslon1.setText(xiaoZhJwd(iBaseView.getCurrentLon()));
+        wgslon1.setText(xiaoZhJwd(iBaseView.getGpsPoint().getX()));
 
         TextView wgslat1 = (TextView) view.findViewById(R.id.callout_mylocation_wgs_lat1);
-        wgslat1.setText(xiaoZhJwd(iBaseView.getCurrenLat()));
+        wgslat1.setText(xiaoZhJwd(iBaseView.getGpsPoint().getY()));
         //
         Button addscpoint = (Button) view.findViewById(R.id.addscpoint);
         addscpoint.setOnClickListener(new View.OnClickListener() {
@@ -229,7 +217,7 @@ public class BasePresenter {
         View view = LayoutInflater.from(baseActivity).inflate(R.layout.calloutpopuwindow, null);
         final View wgsView = view.findViewById(R.id.calloutpopuwindow_xian80);
 
-        Point gps =(Point) GeometryEngine.project(mappoint, SpatialReference.create(4490),SpatialReference.create(4326));
+        Point gps =(Point) GeometryEngine.project(mappoint, BaseActivity.spatialReference,SpatialReference.create(4326));
         //wgs84坐标
         TextView wgslon1 = (TextView) view.findViewById(R.id.calloutpopuwindow_wgs_lon);
         wgslon1.setText(xiaoZhJwd(gps.getX()));
@@ -262,20 +250,20 @@ public class BasePresenter {
         }
         String state = "0";
         String recodeTime = format.format(new Date());
-        if (MyApplication.getInstance().hasNetWork()) {
-            // 在线保存
-            Webservice webservice = new Webservice(baseActivity);
-            state = webservice.upPoint(MyApplication.macAddress,
-                    currentPoint.getX() + "", currentPoint.getY() + "",
-                    format.format(new Date()), MyApplication.mobileXlh,
-                    MyApplication.mobileType);
-            if (state.equals("0")) {
-                // 录入失败
-            } else if (state.equals("1")) {
-                // 录入成功
-                state = "1";
-            }
-        }
+//        if (MyApplication.getInstance().hasNetWork()) {
+//            // 在线保存
+//            Webservice webservice = new Webservice(baseActivity);
+//            state = webservice.upPoint(MyApplication.macAddress,
+//                    currentPoint.getX() + "", currentPoint.getY() + "",
+//                    format.format(new Date()), MyApplication.mobileXlh,
+//                    MyApplication.mobileType);
+//            if (state.equals("0")) {
+//                // 录入失败
+//            } else if (state.equals("1")) {
+//                // 录入成功
+//                state = "1";
+//            }
+//        }
         addGuijiOnLoc(currentPoint, state, recodeTime);
     }
 
@@ -288,6 +276,10 @@ public class BasePresenter {
 
     public void addPointToServer(@NonNull Point currentPoint){
         final String[] state = {"0"};
+        String m = MyApplication.macAddress;
+        String x = currentPoint.getX() + "";
+        String y  =currentPoint.getY() + "";
+        String d = format.format(new Date());
         Observable<String> observable = RetrofitHelper.getInstance(baseActivity).getServer().uPLonLat(MyApplication.macAddress,
                 currentPoint.getX() + "", currentPoint.getY() + "",
                 format.format(new Date()));
@@ -299,8 +291,9 @@ public class BasePresenter {
 
             @Override
             public void onError(Throwable e) {
-                ToastUtil.setToast(baseActivity,"网络错误:"+e.getMessage());
+//                ToastUtil.setToast(baseActivity,"网络错误:"+e.getMessage());
                 state[0] = "0";
+                Log.e("tag","坐标上报错误");
             }
 
             @Override
@@ -317,12 +310,9 @@ public class BasePresenter {
                             state[0] = "0";
                             break;
                     }
-
                 }
             }
         });
-        String recodeTime = format.format(new Date());
-        addGuijiOnLoc(currentPoint, state[0], recodeTime);
     }
 
     /** 从相册选取图片进行编辑 */
@@ -905,6 +895,7 @@ public class BasePresenter {
             }
             FeatureTable featureTable = myLayer.getTable();
             featureTable.updateFeature(feature.getId(), graphic);
+            BaseActivity.selGeoFeature = (GeodatabaseFeature) featureTable.getFeature(feature.getId());
 			/* 添加小班后 记录添加小班的id 备撤销时删除 */
             recordXb(feature.getId(), "update", feature.getAttributes(), feature.getGeometry(), myLayer.getLayer());
         } catch (TableException e) {

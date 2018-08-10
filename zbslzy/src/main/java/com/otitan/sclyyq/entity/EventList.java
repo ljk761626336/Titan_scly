@@ -6,14 +6,15 @@ import java.util.List;
 
 public class EventList implements Serializable {
     private static final long serialVersionUID = -2504610284492104032L;
+    private Long ID;
     /**
      * id
      */
-    private String XJ_ID;
+    private String XJ_ID = "";
     /**
      * 设备编号
      */
-    private String XJ_SBBH;
+    private String XJ_SBBH = "";
     /**
      * 照片地址
      */
@@ -29,11 +30,11 @@ public class EventList implements Serializable {
     /**
      * 经度
      */
-    private Double XJ_JD;
+    private String XJ_JD = "";
     /**
      * 纬度
      */
-    private Double XJ_WD;
+    private String XJ_WD = "";
     /**
      * 事件名称
      */
@@ -53,7 +54,7 @@ public class EventList implements Serializable {
     /**
      * 巡检类型
      */
-    private String XJ_LX;
+    private String XJ_LX = "";
     /**
      * 巡查路线的ID
      */
@@ -61,11 +62,35 @@ public class EventList implements Serializable {
     /**
      * 日期
      */
-    private String XJ_SCRQ;
+    private String XJ_SCRQ = "";
     /**
      * 总记录数
      */
     private int totalCount;
+
+    public Long getID() {
+        return ID;
+    }
+
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
+
+    public String getXJ_JD() {
+        return XJ_JD;
+    }
+
+    public void setXJ_JD(String XJ_JD) {
+        this.XJ_JD = XJ_JD;
+    }
+
+    public String getXJ_WD() {
+        return XJ_WD;
+    }
+
+    public void setXJ_WD(String XJ_WD) {
+        this.XJ_WD = XJ_WD;
+    }
 
     public String getXJ_ID() {
         return XJ_ID;
@@ -105,22 +130,6 @@ public class EventList implements Serializable {
 
     public void setXJ_YPDZ(List XJ_YPDZ) {
         this.XJ_YPDZ = XJ_YPDZ;
-    }
-
-    public Double getXJ_JD() {
-        return XJ_JD;
-    }
-
-    public void setXJ_JD(Double XJ_JD) {
-        this.XJ_JD = XJ_JD;
-    }
-
-    public Double getXJ_WD() {
-        return XJ_WD;
-    }
-
-    public void setXJ_WD(Double XJ_WD) {
-        this.XJ_WD = XJ_WD;
     }
 
     public String getXJ_SJMC() {

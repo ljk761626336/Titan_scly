@@ -373,7 +373,7 @@ public class XbEditActivity extends BaseEditActivity {
 		queryParams.setSpatialRelationship(SpatialRelationship.INTERSECTS);
 		queryParams.setGeometry(geometry);
 		queryParams.setReturnGeometry(true);
-		queryParams.setOutSpatialReference(SpatialReference.create(4490));
+		queryParams.setOutSpatialReference(BaseActivity.spatialReference);
 		layer.getLayer().selectFeatures(queryParams, SelectionMode.NEW,
 				new CallbackListener<FeatureResult>() {
 

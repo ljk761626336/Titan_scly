@@ -17,9 +17,9 @@
             android:background="@color/blue"
             android:gravity="center|start"
             android:paddingLeft="5dp"
-            android:textSize="18sp"
             android:text="事件列表"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/sjlb_close"
@@ -31,6 +31,34 @@
             app:srcCompat="@drawable/ic_close_black_24dp" />
     </LinearLayout>
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/wsb_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/rb_list_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="未上报" />
+
+        <RadioButton
+            android:id="@+id/ysb_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/rb_list_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="已上报"/>
+    </RadioGroup>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/sjlb_srf"
         android:layout_width="match_parent"
@@ -38,7 +66,9 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/sjlb_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

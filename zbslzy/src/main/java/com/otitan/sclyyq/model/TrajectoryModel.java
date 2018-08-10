@@ -1,6 +1,7 @@
 package com.otitan.sclyyq.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.esri.core.geometry.Polyline;
 import com.google.gson.Gson;
@@ -108,7 +109,7 @@ public class TrajectoryModel extends BaseModel implements ITrajectoryModel {
 
     @Override
     public void sendTrajectory(final Context context, final Trajectory trajectory) {
-        ArrayList list = new ArrayList<Trajectory>();
+        List<Trajectory> list = new ArrayList<>();
         list.add(trajectory);
         Gson gson = new Gson();
         String json = gson.toJson(list);
@@ -125,6 +126,7 @@ public class TrajectoryModel extends BaseModel implements ITrajectoryModel {
                     public void onError(Throwable throwable) {
                         ToastUtil.setToast(context, "轨迹记录上传异常" + throwable.getMessage());
                         sendTrajectory(context, trajectory);
+                        Log.e("tag","轨迹上报错误");
                     }
 
                     @Override

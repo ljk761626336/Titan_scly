@@ -333,7 +333,7 @@ public class YzlYddActivity extends BaseEditActivity {
 
 	/**添加样地点 到数据图层*/
 	public void addFeatureTolayer(Point point){
-		Geometry geom = GeometryEngine.simplify(point,SpatialReference.create(4490));
+		Geometry geom = GeometryEngine.simplify(point,BaseActivity.spatialReference);
 		addFeatureOnLayer(geom, layerFeatureAts);
 	}
 

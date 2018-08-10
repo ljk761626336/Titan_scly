@@ -136,6 +136,7 @@ import com.otitan.sclyyq.presenter.NavigationPresenter;
 import com.otitan.sclyyq.presenter.RepairPresenter;
 import com.otitan.sclyyq.presenter.TrajectoryPresenter;
 import com.otitan.sclyyq.presenter.XbqueryPresenter;
+import com.otitan.sclyyq.service.Webservice;
 import com.otitan.sclyyq.util.ArcGISUtils;
 import com.otitan.sclyyq.util.BaseUtil;
 import com.otitan.sclyyq.util.BussUtil;
@@ -171,7 +172,7 @@ import java.util.Map;
 //@RuntimePermissions //@RuntimePermissions 注释此活动或碎片
 public abstract class BaseActivity extends AppCompatActivity implements LayerSelectDialog.SetOnItemClickListener,
         View.OnClickListener, DrawEventListener, IYzlView, ILayerControlView, ILayerView, INavigatView,
-        ITrajectoryView,IEventReportView {
+        ITrajectoryView, IEventReportView {
 
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{
@@ -191,6 +192,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     public static void setDialog(Dialog dialog) {
         BaseActivity.dialog = dialog;
     }
+
     /*现场事件上报，在图片回调中使用*/
     private static Dialog dialog = null;
     public static IBaseView baseView;
@@ -1080,6 +1082,9 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         @Override
         public void run() {
             super.run();
+
+            basePresenter.addGuijiPoint(currentPoint);
+
             if (MyApplication.getInstance().netWorkTip()) {
                 basePresenter.addPointToServer(currentPoint);
             }
@@ -1934,26 +1939,26 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
                 break;
 
             case PICK_PHOTO://现场信息上报选择图片后
-                if(data != null){
+                if (data != null) {
                     //图片选择成功
                     picList.clear();
                     picList = data.getStringArrayListExtra(PhotoPickerActivity.KEY_RESULT);
-                    ((JjxxsbDialog)dialog).loadPhoto();
+                    ((JjxxsbDialog) dialog).loadPhoto();
                 }
                 break;
             case PICK_AUDIO:
 
-                if(data != null){
+                if (data != null) {
                     String path = data.getStringExtra(AudioRecorderActivity.KEY_RESULT);
-                    ((JjxxsbDialog)dialog).setAudioPath(path);
-                    ((JjxxsbDialog)dialog).setAudioname();
+                    ((JjxxsbDialog) dialog).setAudioPath(path);
+                    ((JjxxsbDialog) dialog).setAudioname();
                 }
                 break;
-            case  PICK_VIDEO:
-                if(data != null){
+            case PICK_VIDEO:
+                if (data != null) {
                     String path = data.getStringExtra(VideoRecorderActivity.KEY_RESULT);
-                    ((JjxxsbDialog)dialog).setVideoPath(path);
-                    ((JjxxsbDialog)dialog).showVideo();
+                    ((JjxxsbDialog) dialog).setVideoPath(path);
+                    ((JjxxsbDialog) dialog).showVideo();
                 }
                 break;
             case ALBUM:// 从相册选取
@@ -3139,9 +3144,16 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         Polygon selectPpolygon = (Polygon) selectGeometry;
         int pathSize = selectPpolygon.getPathCount();//2
         if (pathSize == 1) {
-            repairPresenter.saveXBoPathFeature(drawline, selectPpolygon);
+            Graphic g = repairPresenter.saveXBoPathFeature(drawline, selectPpolygon);
+            String cname = selMap.get(selGeoFeaturesList.get(0));
+            selGeoFeaturesList.set(0, selGeoFeature);
+            selMap.clear();
+            selMap.put(selGeoFeature, cname);
+            getSelParams(selGeoFeaturesList, 0);
         } else if (pathSize > 1) {
             saveXbAllPath(drawline);
+//            selGeoFeaturesList.set(0, selGeoFeature);
+//            getSelParams(selGeoFeaturesList, 0);
         }
     }
 
@@ -3486,6 +3498,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
     }
 
     public static GreenDaoManager greenDaoManager;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -3493,7 +3506,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
 // 缺少权限时, 进入权限配置页面
         if (new com.titan.baselibrary.permission.PermissionsChecker(this).lacksPermissions(PERMISSIONS)) {
             com.titan.baselibrary.permission.PermissionsActivity.startActivityForResult(this, com.titan.baselibrary.permission.PermissionsActivity.PERMISSIONS_REQUEST_CODE, PERMISSIONS);
-        }else {
+        } else {
             greenDaoManager = GreenDaoManager.getInstance();
         }
 
