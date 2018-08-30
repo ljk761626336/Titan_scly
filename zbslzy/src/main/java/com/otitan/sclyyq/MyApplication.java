@@ -3,12 +3,16 @@ package com.otitan.sclyyq;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings.Secure;
 import android.support.multidex.MultiDex;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.otitan.sclyyq.service.RetrofitHelper;
@@ -25,6 +29,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.titan.baselibrary.crash.CrashHandler;
 import com.titan.baselibrary.util.MemoryUtil;
 import com.titan.baselibrary.util.MobileInfoUtil;
+import com.titan.versionupdata.BuildConfig;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.io.ByteArrayOutputStream;
@@ -33,6 +38,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 import rx.Observable;
 import rx.Observer;
@@ -86,7 +92,7 @@ public class MyApplication extends Application {
 		 * 发布新版本时需要修改以及bugly isbug需要改成false等部分
 		 * 腾讯bugly 在android 4.4版本上有bug 启动报错
 		 */
-		CrashReport.initCrashReport(getApplicationContext(), "e76ea6310a", true);
+		CrashReport.initCrashReport(getApplicationContext(), "ce14a68f5e", true);
 		instance = this;
 		/** 注册网络监听 */
 		//initNetworkReceiver();

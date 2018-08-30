@@ -37,7 +37,7 @@ public class YzlActivity extends BaseActivity {
 		if (PadUtil.isPad(this)){
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		}else {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		}
 		parentView = getLayoutInflater().inflate(R.layout.activity_base, null);
 		super.onCreate(savedInstanceState);

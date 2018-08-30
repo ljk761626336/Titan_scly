@@ -146,6 +146,13 @@ public class SettingDialog extends Dialog {
                         }
                     });
                 }
+            }else{
+                ((BaseActivity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastUtil.setToast(mContext, "网络错误，请检查网络连接");
+                    }
+                });
             }
         }
     }

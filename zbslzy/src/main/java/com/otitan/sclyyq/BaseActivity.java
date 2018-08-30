@@ -136,7 +136,6 @@ import com.otitan.sclyyq.presenter.NavigationPresenter;
 import com.otitan.sclyyq.presenter.RepairPresenter;
 import com.otitan.sclyyq.presenter.TrajectoryPresenter;
 import com.otitan.sclyyq.presenter.XbqueryPresenter;
-import com.otitan.sclyyq.service.Webservice;
 import com.otitan.sclyyq.util.ArcGISUtils;
 import com.otitan.sclyyq.util.BaseUtil;
 import com.otitan.sclyyq.util.BussUtil;
@@ -153,6 +152,7 @@ import com.titan.baselibrary.util.DialogParamsUtil;
 import com.titan.baselibrary.util.ProgressDialogUtil;
 import com.titan.medialibrary.activity.AudioRecorderActivity;
 import com.titan.medialibrary.activity.VideoRecorderActivity;
+import com.titan.versionupdata.VersionUpdata;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -181,6 +181,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE
+//            Manifest.permission.REQUEST_INSTALL_PACKAGES
     };
 
     public ArrayList<String> picList = new ArrayList<>();
@@ -416,6 +417,7 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         //featureLayerList.clear();
         //featureLayer = null;
         baseView = this;
+        new UpdataThread().start();
     }
 
     public abstract View getParentView();
@@ -655,6 +657,28 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
             locationMarkerSymbol = ls.getDefaultSymbol();
         } catch (java.lang.Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /*检查版本更新*/
+    private class UpdataThread extends Thread {
+
+        @Override
+        public void run() {
+            super.run();
+            if (MyApplication.getInstance().netWorkTip()) {
+                // 获取当前版本号 是否是最新版本
+                String updateurl = mContext.getResources().getString(R.string.updateurl);
+                boolean flag = new VersionUpdata((BaseActivity) mContext).checkVersion(updateurl);
+                if (!flag) {
+                    ((BaseActivity) mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+//                            ToastUtil.setToast(mContext, "已是最新版本");
+                        }
+                    });
+                }
+            }
         }
     }
 
@@ -3144,17 +3168,23 @@ public abstract class BaseActivity extends AppCompatActivity implements LayerSel
         Polygon selectPpolygon = (Polygon) selectGeometry;
         int pathSize = selectPpolygon.getPathCount();//2
         if (pathSize == 1) {
-            Graphic g = repairPresenter.saveXBoPathFeature(drawline, selectPpolygon);
-            String cname = selMap.get(selGeoFeaturesList.get(0));
-            selGeoFeaturesList.set(0, selGeoFeature);
-            selMap.clear();
-            selMap.put(selGeoFeature, cname);
-            getSelParams(selGeoFeaturesList, 0);
+            repairPresenter.saveXBoPathFeature(drawline, selectPpolygon);
+            upSelGeoFeaturesList();
         } else if (pathSize > 1) {
             saveXbAllPath(drawline);
-//            selGeoFeaturesList.set(0, selGeoFeature);
-//            getSelParams(selGeoFeaturesList, 0);
+            upSelGeoFeaturesList();
         }
+    }
+
+    /**
+     * 修斑之后更新列表里面的小班数据
+     */
+    private void upSelGeoFeaturesList() {
+        String cname = selMap.get(selGeoFeaturesList.get(0));
+        selGeoFeaturesList.set(0, selGeoFeature);
+        selMap.clear();
+        selMap.put(selGeoFeature, cname);
+        getSelParams(selGeoFeaturesList, 0);
     }
 
     /**

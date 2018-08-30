@@ -626,7 +626,7 @@
     <string name="webservice">http://101.201.54.143:8002/api/MobileAppServer/</string>
     <!--<string name="webservice">http://192.168.10.105:8088/api/MobileAppServer/</string>-->
     <!--版本更新地址-->
-    <string name="updateurl">http://101.201.54.143:8031/apk/sclyversion.xml</string>
+    <string name="updateurl">http://101.201.54.143:8031/apk/zbly/zbly_version.xml</string>
     <!---->
     <!--<string name="serverhost">http://101.201.54.143:8031/</string>-->
     <string name="serverhost">http://101.201.54.143:8002/api/MobileAppServer/</string>
